@@ -1,0 +1,40 @@
+name: Build APK with Apktool
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: 17
+
+    - name: Install Apktool
+      run: |
+        wget https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool
+        wget https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.9.3.jar -O apktool.jar
+        chmod +x apktool
+        sudo mv apktool apktool.jar /usr/local/bin/
+        echo 'java -jar /usr/local/bin/apktool.jar "$@"' | sudo tee /usr/local/bin/apktool-cli
+        sudo chmod +x /usr/local/bin/apktool-cli
+
+    - name: Build APK
+      run: |
+        apktool-cli b . -o build/myapp_unsigned.apk
+
+    - name: Upload unsigned APK artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: myapp-unsigned
+        path: build/myapp_unsigned.apk
