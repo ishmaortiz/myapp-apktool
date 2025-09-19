@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ScrollView android:background="#ffe5e5e5" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_alignParentLeft="true" android:layout_alignParentTop="true" android:layout_alignParentStart="true">
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <ImageView android:id="@id/imageView2" android:background="@drawable/header_bg" android:layout_width="fill_parent" android:layout_height="wrap_content" android:src="@drawable/header_logo" android:cropToPadding="true" />
+            <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginTop="15.0dip" android:layout_marginRight="10.0dip">
+                <TextView android:textStyle="bold" android:textColor="@color/example" android:id="@id/labelInternetConnectivityIsRequired" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Internet connection is required during installation" />
+                <TextView android:textColor="@color/example" android:id="@id/labelInternetConnectivityIsRequiredDescription" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:layout_marginBottom="15.0dip" android:text="You must enable WiFi/Mobile Data or any other type of Internet connectivity available on this device. This is required only during the installation." android:layout_below="@id/labelWelcome" />
+                <LinearLayout android:id="@id/LinearLayout02" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true">
+                    <Button android:id="@id/Button02" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="WiFi/Mobile Data Settings" android:layout_weight="1.0" android:onClick="adjustSettingsOnClick" />
+                    <Button android:id="@id/Button03" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Continue without Internet" android:layout_weight="1.0" android:onClick="continueOnClick" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

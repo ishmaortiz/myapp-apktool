@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ScrollView android:background="#ffe5e5e5" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_alignParentLeft="true" android:layout_alignParentTop="true" android:layout_alignParentStart="true">
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <ImageView android:id="@id/imageView2" android:background="@drawable/header_bg" android:layout_width="fill_parent" android:layout_height="wrap_content" android:src="@drawable/header_logo" android:cropToPadding="true" />
+            <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:layout_marginTop="15.0dip" android:layout_marginRight="10.0dip">
+                <TextView android:textStyle="bold" android:textColor="@color/example" android:id="@id/labelWelcome" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/label_title_installation_completed" />
+                <TextView android:textColor="@color/example" android:id="@id/labelDescription" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="5.0dip" android:text="@string/label_message_installation_completed" android:layout_below="@id/labelWelcome" />
+                <Button android:id="@id/buttonCompleteInstallation" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="Close" android:onClick="actionFinish" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

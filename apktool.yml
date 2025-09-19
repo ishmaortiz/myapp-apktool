@@ -1,0 +1,18 @@
+version: 2.12.1
+apkFileName: imusic.apk
+usesFramework:
+  ids:
+  - 1
+sdkInfo:
+  minSdkVersion: 17
+  targetSdkVersion: 17
+packageInfo:
+  forcedPackageId: 127
+versionInfo:
+  versionCode: 1
+  versionName: 1.0
+doNotCompress:
+- arsc
+- jpg
+- png
+- wav

