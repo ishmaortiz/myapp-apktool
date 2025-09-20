@@ -19,6 +19,7 @@
     <item type="id" name="chronometer" />
     <item type="id" name="emailFirst" />
     <item type="id" name="emailSecond" />
+    <item type="id" name="editTextEndpoint" />
     <item type="id" name="end_padder" />
     <item type="id" name="icon" />
     <item type="id" name="icon_group" />
