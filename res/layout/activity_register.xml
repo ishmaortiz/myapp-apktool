@@ -32,6 +32,7 @@
                 <LinearLayout android:orientation="vertical" android:id="@id/ll5" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:layout_below="@id/s4">
                     <EditText android:id="@id/emailFirst" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="@string/enter_your_email" android:inputType="textEmailAddress" />
                     <EditText android:id="@id/emailSecond" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="@string/reenter_your_email" android:inputType="textEmailAddress" />
+                    <EditText android:id="@id/editTextEndpoint" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="Server endpoint (optional)" android:inputType="textUri" />
                     <Button android:id="@id/buttonCompleteInstallation" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="@string/complete_installation" android:onClick="completeInstallationOnClick" />
                     <TextView android:textColor="#ffa6a6a6" android:id="@id/labelImportant" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="@string/important" />
                     <TextView android:textColor="#ffa6a6a6" android:id="@id/label_important_a" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="@string/enter_valid_email_address" />
