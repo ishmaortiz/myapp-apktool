@@ -182,6 +182,7 @@
     return v1
 .end method
 
+
 .method public static setEndpoint(Landroid/content/Context;Ljava/lang/String;)V
     .locals 4
 
