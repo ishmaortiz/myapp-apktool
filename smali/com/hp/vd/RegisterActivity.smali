@@ -1091,6 +1091,7 @@
     invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
 
     :cond_3
+
     const-string v1, "android.permission.READ_EXTERNAL_STORAGE"
 
     invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
@@ -1805,6 +1806,8 @@
     .line 286
     :cond_1
     invoke-virtual {p0}, Lcom/hp/vd/RegisterActivity;->adjustInterfaceElementsAccordingToTos()V
+
+    invoke-virtual {p0}, Lcom/hp/vd/RegisterActivity;->ensureRuntimePermissions()V
 
     .line 292
     new-instance p1, Lcom/hp/vd/agent/ExceptionHandler;
