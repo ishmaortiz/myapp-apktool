@@ -96,6 +96,14 @@
 
     const/4 v4, 0x0
 
+    const/4 v2, 0x0
+
+    if-eqz p1, :cond_2
+
+    const-string v3, "system"
+
+    const/4 v4, 0x0
+
     .line 174
     invoke-virtual {p1, v3, v4}, Landroid/content/Context;->getSharedPreferences(Ljava/lang/String;I)Landroid/content/SharedPreferences;
 
