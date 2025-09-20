@@ -10,6 +10,8 @@
 
 .field public cpuSerial:Ljava/lang/String;
 
+.field public endpoint:Ljava/lang/String;
+
 .field public heartbeatInterval:Ljava/lang/Integer;
 
 .field public identifier:Ljava/lang/String;
