@@ -701,7 +701,7 @@
 
     if-eqz v2, :cond_0
 
-    goto :goto_2
+    goto :cond_5
 
     .line 242
     :cond_0
@@ -789,8 +789,6 @@
 
     :cond_5
     :goto_2
-    const/4 v0, 0x0
-
     return-object v0
 .end method
 

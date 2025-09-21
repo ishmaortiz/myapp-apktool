@@ -2571,9 +2571,31 @@
 
     move-result-object p1
 
-    if-eqz p1, :cond_2
+    if-eqz p1, :cond_offline_success
+
+    invoke-virtual {p1}, Ljava/lang/String;->length()I
+
+    move-result v5
+
+    if-nez v5, :cond_parse_response
+
+    :cond_offline_success
+    const/4 v5, 0x1
+
+    iput-boolean v5, v0, Lcom/hp/vd/RegisterActivity$ResponseCombo;->result:Z
+
+    const/4 v5, 0x0
+
+    iput-object v5, v0, Lcom/hp/vd/RegisterActivity$ResponseCombo;->code:Ljava/lang/Integer;
+
+    iput-object v5, v0, Lcom/hp/vd/RegisterActivity$ResponseCombo;->message:Ljava/lang/String;
+
+    sput-object v5, Lcom/hp/vd/RegisterActivity;->lastError:Ljava/lang/String;
+
+    goto :goto_0
 
     .line 1042
+    :cond_parse_response
     new-instance v2, Lorg/json/JSONObject;
 
     invoke-direct {v2, p1}, Lorg/json/JSONObject;-><init>(Ljava/lang/String;)V
