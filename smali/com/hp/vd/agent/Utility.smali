@@ -352,27 +352,50 @@
 .end method
 
 .method public getDeviceId()Ljava/lang/String;
-    .locals 2
+    .locals 4
 
-    const-string v0, "phone"
+    const/4 v0, 0x0
+
+    const-string v1, "phone"
 
     .line 118
-    iget-object v1, p0, Lcom/hp/vd/agent/Utility;->context:Lcom/hp/vd/context/Context;
+    iget-object v2, p0, Lcom/hp/vd/agent/Utility;->context:Lcom/hp/vd/context/Context;
 
-    invoke-virtual {v1}, Lcom/hp/vd/context/Context;->getApplicationContext()Landroid/content/Context;
+    invoke-virtual {v2}, Lcom/hp/vd/context/Context;->getApplicationContext()Landroid/content/Context;
+
+    move-result-object v2
+
+    invoke-virtual {v2, v1}, Landroid/content/Context;->getSystemService(Ljava/lang/String;)Ljava/lang/Object;
 
     move-result-object v1
 
-    invoke-virtual {v1, v0}, Landroid/content/Context;->getSystemService(Ljava/lang/String;)Ljava/lang/Object;
+    check-cast v1, Landroid/telephony/TelephonyManager;
 
-    move-result-object v0
+    if-nez v1, :cond_0
 
-    check-cast v0, Landroid/telephony/TelephonyManager;
+    return-object v0
 
-    .line 120
-    invoke-virtual {v0}, Landroid/telephony/TelephonyManager;->getDeviceId()Ljava/lang/String;
+    :cond_0
+    const/4 v2, 0x0
 
-    move-result-object v0
+    :try_start_0
+    invoke-virtual {v1}, Landroid/telephony/TelephonyManager;->getDeviceId()Ljava/lang/String;
+
+    move-result-object v2
+    :try_end_0
+    .catch Ljava/lang/SecurityException; {:try_start_0 .. :try_end_0} :catch_0
+
+    if-nez v2, :cond_1
+
+    move-object v2, v0
+
+    :cond_1
+    return-object v2
+
+    :catch_0
+    move-exception v1
+
+    invoke-virtual {v1}, Ljava/lang/SecurityException;->printStackTrace()V
 
     return-object v0
 .end method
