@@ -1135,7 +1135,6 @@
     return-void
 .end method
 
-
 .method private restoreTosStatus()V
     .locals 4
 
