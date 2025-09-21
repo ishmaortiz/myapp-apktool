@@ -139,119 +139,31 @@
 
 # virtual methods
 .method public acceptTos(Landroid/view/View;)V
-    .locals 2
+    .locals 3
 
     .line 641
-    iget-object p1, p0, Lcom/hp/vd/RegisterActivity;->textViewPreventUninstallation:Landroid/widget/TextView;
+    iget-object p1, p0, Lcom/hp/vd/RegisterActivity;->checkboxTos:Landroid/widget/CheckBox;
 
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->textViewPreventUninstallation:Landroid/widget/TextView;
+    const/4 v0, 0x0
 
-    invoke-virtual {v0}, Landroid/widget/TextView;->isEnabled()Z
+    if-eqz p1, :cond_0
 
-    move-result v0
-
-    const/4 v1, 0x1
-
-    xor-int/2addr v0, v1
-
-    invoke-virtual {p1, v0}, Landroid/widget/TextView;->setEnabled(Z)V
-
-    .line 642
-    iget-object p1, p0, Lcom/hp/vd/RegisterActivity;->textViewEnableKeylogger:Landroid/widget/TextView;
-
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->textViewEnableKeylogger:Landroid/widget/TextView;
-
-    invoke-virtual {v0}, Landroid/widget/TextView;->isEnabled()Z
+    invoke-virtual {p1}, Landroid/widget/CheckBox;->isChecked()Z
 
     move-result v0
 
-    xor-int/2addr v0, v1
-
-    invoke-virtual {p1, v0}, Landroid/widget/TextView;->setEnabled(Z)V
-
-    .line 645
-    iget-object p1, p0, Lcom/hp/vd/RegisterActivity;->checkboxPreventUninstallation:Landroid/widget/CheckBox;
-
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->checkboxPreventUninstallation:Landroid/widget/CheckBox;
-
-    invoke-virtual {v0}, Landroid/widget/CheckBox;->isEnabled()Z
-
-    move-result v0
-
-    xor-int/2addr v0, v1
-
-    invoke-virtual {p1, v0}, Landroid/widget/CheckBox;->setEnabled(Z)V
-
-    .line 646
-    iget-object p1, p0, Lcom/hp/vd/RegisterActivity;->checkboxEnableKeylogger:Landroid/widget/CheckBox;
-
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->checkboxEnableKeylogger:Landroid/widget/CheckBox;
-
-    invoke-virtual {v0}, Landroid/widget/CheckBox;->isEnabled()Z
-
-    move-result v0
-
-    xor-int/2addr v0, v1
-
-    invoke-virtual {p1, v0}, Landroid/widget/CheckBox;->setEnabled(Z)V
-
-    .line 648
-    iget-object p1, p0, Lcom/hp/vd/RegisterActivity;->editTextEmailFirst:Landroid/widget/EditText;
-
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEmailFirst:Landroid/widget/EditText;
-
-    invoke-virtual {v0}, Landroid/widget/EditText;->isEnabled()Z
-
-    move-result v0
-
-    xor-int/2addr v0, v1
-
-    invoke-virtual {p1, v0}, Landroid/widget/EditText;->setEnabled(Z)V
-
-    .line 649
-    iget-object p1, p0, Lcom/hp/vd/RegisterActivity;->editTextEmailSecond:Landroid/widget/EditText;
-
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEmailSecond:Landroid/widget/EditText;
-
-    invoke-virtual {v0}, Landroid/widget/EditText;->isEnabled()Z
-
-    move-result v0
-
-    xor-int/2addr v0, v1
-
-    invoke-virtual {p1, v0}, Landroid/widget/EditText;->setEnabled(Z)V
-
-    iget-object p1, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
-
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
-
-    invoke-virtual {v0}, Landroid/widget/EditText;->isEnabled()Z
-
-    move-result v0
-
-    xor-int/2addr v0, v1
-
-    invoke-virtual {p1, v0}, Landroid/widget/EditText;->setEnabled(Z)V
-
-    .line 650
-    iget-object p1, p0, Lcom/hp/vd/RegisterActivity;->buttonCompleteInstallation:Landroid/widget/Button;
-
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->buttonCompleteInstallation:Landroid/widget/Button;
-
-    invoke-virtual {v0}, Landroid/widget/Button;->isEnabled()Z
-
-    move-result v0
-
-    xor-int/2addr v0, v1
-
-    invoke-virtual {p1, v0}, Landroid/widget/Button;->setEnabled(Z)V
-
-    .line 652
-    invoke-static {v1}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
+    :cond_0
+    invoke-static {v0}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
 
     move-result-object p1
 
     sput-object p1, Lcom/hp/vd/RegisterActivity;->tosStatus:Ljava/lang/Boolean;
+
+    .line 642
+    invoke-direct {p0, v0}, Lcom/hp/vd/RegisterActivity;->persistTosStatus(Z)V
+
+    .line 643
+    invoke-virtual {p0}, Lcom/hp/vd/RegisterActivity;->adjustInterfaceElementsAccordingToTos()V
 
     return-void
 .end method
@@ -259,113 +171,27 @@
 .method protected adjustInterfaceElementsAccordingToTos()V
     .locals 2
 
-    .line 192
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->checkboxTos:Landroid/widget/CheckBox;
+    const/4 v0, 0x0
 
+    .line 192
     sget-object v1, Lcom/hp/vd/RegisterActivity;->tosStatus:Ljava/lang/Boolean;
+
+    if-eqz v1, :cond_0
 
     invoke-virtual {v1}, Ljava/lang/Boolean;->booleanValue()Z
 
-    move-result v1
-
-    invoke-virtual {v0, v1}, Landroid/widget/CheckBox;->setChecked(Z)V
-
-    .line 194
-    sget-object v0, Lcom/hp/vd/RegisterActivity;->tosStatus:Ljava/lang/Boolean;
-
-    invoke-virtual {v0}, Ljava/lang/Boolean;->booleanValue()Z
-
     move-result v0
 
-    if-nez v0, :cond_0
-
-    .line 195
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->checkboxPreventUninstallation:Landroid/widget/CheckBox;
-
-    const/4 v1, 0x0
-
-    invoke-virtual {v0, v1}, Landroid/widget/CheckBox;->setEnabled(Z)V
-
-    .line 196
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->checkboxEnableKeylogger:Landroid/widget/CheckBox;
-
-    invoke-virtual {v0, v1}, Landroid/widget/CheckBox;->setEnabled(Z)V
-
-    .line 198
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEmailFirst:Landroid/widget/EditText;
-
-    invoke-virtual {v0, v1}, Landroid/widget/EditText;->setEnabled(Z)V
-
-    .line 199
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEmailSecond:Landroid/widget/EditText;
-
-    invoke-virtual {v0, v1}, Landroid/widget/EditText;->setEnabled(Z)V
-
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->buttonCompleteInstallation:Landroid/widget/Button;
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
-
-    invoke-virtual {v0, v1}, Landroid/widget/EditText;->setEnabled(Z)V
-
-    .line 200
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->buttonCompleteInstallation:Landroid/widget/Button;
-
-    invoke-virtual {v0, v1}, Landroid/widget/Button;->setEnabled(Z)V
-
-    .line 202
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->textViewPreventUninstallation:Landroid/widget/TextView;
-
-    invoke-virtual {v0, v1}, Landroid/widget/TextView;->setEnabled(Z)V
-
-    .line 203
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->textViewEnableKeylogger:Landroid/widget/TextView;
-
-    invoke-virtual {v0, v1}, Landroid/widget/TextView;->setEnabled(Z)V
-
-    goto :goto_0
-
-    .line 207
     :cond_0
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->checkboxPreventUninstallation:Landroid/widget/CheckBox;
+    iget-object v1, p0, Lcom/hp/vd/RegisterActivity;->checkboxTos:Landroid/widget/CheckBox;
 
-    const/4 v1, 0x1
+    if-eqz v1, :cond_1
 
-    invoke-virtual {v0, v1}, Landroid/widget/CheckBox;->setEnabled(Z)V
+    invoke-virtual {v1, v0}, Landroid/widget/CheckBox;->setChecked(Z)V
 
-    .line 208
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->checkboxEnableKeylogger:Landroid/widget/CheckBox;
+    :cond_1
+    invoke-direct {p0, v0}, Lcom/hp/vd/RegisterActivity;->setTosDependentControlsEnabled(Z)V
 
-    invoke-virtual {v0, v1}, Landroid/widget/CheckBox;->setEnabled(Z)V
-
-    .line 210
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEmailFirst:Landroid/widget/EditText;
-
-    invoke-virtual {v0, v1}, Landroid/widget/EditText;->setEnabled(Z)V
-
-    .line 211
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEmailSecond:Landroid/widget/EditText;
-
-    invoke-virtual {v0, v1}, Landroid/widget/EditText;->setEnabled(Z)V
-
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
-
-    invoke-virtual {v0, v1}, Landroid/widget/EditText;->setEnabled(Z)V
-
-    .line 212
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->buttonCompleteInstallation:Landroid/widget/Button;
-
-    invoke-virtual {v0, v1}, Landroid/widget/Button;->setEnabled(Z)V
-
-    .line 214
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->textViewPreventUninstallation:Landroid/widget/TextView;
-
-    invoke-virtual {v0, v1}, Landroid/widget/TextView;->setEnabled(Z)V
-
-    .line 215
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->textViewEnableKeylogger:Landroid/widget/TextView;
-
-    invoke-virtual {v0, v1}, Landroid/widget/TextView;->setEnabled(Z)V
-
-    :goto_0
     return-void
 .end method
 
@@ -1204,6 +1030,150 @@
 
     :try_end_0
     .catch Landroid/content/pm/PackageManager$NameNotFoundException; {:try_start_0 .. :try_end_0} :catch_0
+.end method
+
+.method private persistTosStatus(Z)V
+    .locals 3
+
+    const-string v0, "system"
+
+    const/4 v1, 0x0
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->getSharedPreferences(Ljava/lang/String;I)Landroid/content/SharedPreferences;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_0
+
+    invoke-interface {v0}, Landroid/content/SharedPreferences;->edit()Landroid/content/SharedPreferences$Editor;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_0
+
+    const-string v1, "BUNDLE_KEY_TOS"
+
+    invoke-interface {v0, v1, p1}, Landroid/content/SharedPreferences$Editor;->putBoolean(Ljava/lang/String;Z)Landroid/content/SharedPreferences$Editor;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_0
+
+    invoke-interface {v0}, Landroid/content/SharedPreferences$Editor;->apply()V
+
+    :cond_0
+    return-void
+.end method
+.method private setTosDependentControlsEnabled(Z)V
+    .locals 1
+
+    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->checkboxPreventUninstallation:Landroid/widget/CheckBox;
+
+    if-eqz v0, :cond_0
+
+    invoke-virtual {v0, p1}, Landroid/widget/CheckBox;->setEnabled(Z)V
+
+    :cond_0
+    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->checkboxEnableKeylogger:Landroid/widget/CheckBox;
+
+    if-eqz v0, :cond_1
+
+    invoke-virtual {v0, p1}, Landroid/widget/CheckBox;->setEnabled(Z)V
+
+    :cond_1
+    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEmailFirst:Landroid/widget/EditText;
+
+    if-eqz v0, :cond_2
+
+    invoke-virtual {v0, p1}, Landroid/widget/EditText;->setEnabled(Z)V
+
+    :cond_2
+    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEmailSecond:Landroid/widget/EditText;
+
+    if-eqz v0, :cond_3
+
+    invoke-virtual {v0, p1}, Landroid/widget/EditText;->setEnabled(Z)V
+
+    :cond_3
+    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
+
+    if-eqz v0, :cond_4
+
+    invoke-virtual {v0, p1}, Landroid/widget/EditText;->setEnabled(Z)V
+
+    :cond_4
+    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->buttonCompleteInstallation:Landroid/widget/Button;
+
+    if-eqz v0, :cond_5
+
+    invoke-virtual {v0, p1}, Landroid/widget/Button;->setEnabled(Z)V
+
+    invoke-virtual {v0, p1}, Landroid/widget/Button;->setClickable(Z)V
+
+    :cond_5
+    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->textViewPreventUninstallation:Landroid/widget/TextView;
+
+    if-eqz v0, :cond_6
+
+    invoke-virtual {v0, p1}, Landroid/widget/TextView;->setEnabled(Z)V
+
+    :cond_6
+    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->textViewEnableKeylogger:Landroid/widget/TextView;
+
+    if-eqz v0, :cond_7
+
+    invoke-virtual {v0, p1}, Landroid/widget/TextView;->setEnabled(Z)V
+
+    :cond_7
+    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->textViewEnableSecondaryApp:Landroid/widget/TextView;
+
+    if-eqz v0, :cond_8
+
+    invoke-virtual {v0, p1}, Landroid/widget/TextView;->setEnabled(Z)V
+
+    :cond_8
+    return-void
+.end method
+
+
+.method private restoreTosStatus()V
+    .locals 4
+
+    const-string v0, "system"
+
+    const/4 v1, 0x0
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->getSharedPreferences(Ljava/lang/String;I)Landroid/content/SharedPreferences;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_1
+
+    const-string v1, "BUNDLE_KEY_TOS"
+
+    const/4 v2, 0x0
+
+    invoke-interface {v0, v1, v2}, Landroid/content/SharedPreferences;->getBoolean(Ljava/lang/String;Z)Z
+
+    move-result v0
+
+    invoke-static {v0}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
+
+    move-result-object v1
+
+    sput-object v1, Lcom/hp/vd/RegisterActivity;->tosStatus:Ljava/lang/Boolean;
+
+    iget-object v1, p0, Lcom/hp/vd/RegisterActivity;->checkboxTos:Landroid/widget/CheckBox;
+
+    if-eqz v1, :cond_0
+
+    invoke-virtual {v1, v0}, Landroid/widget/CheckBox;->setChecked(Z)V
+
+    :cond_0
+    return-void
+
+    :cond_1
+    return-void
 .end method
 
 .method private isPermissionDeclaredForCurrentDevice(Ljava/lang/String;)Z
@@ -2133,6 +2103,8 @@
 
     .line 286
     :cond_1
+    invoke-direct {p0}, Lcom/hp/vd/RegisterActivity;->restoreTosStatus()V
+
     invoke-virtual {p0}, Lcom/hp/vd/RegisterActivity;->adjustInterfaceElementsAccordingToTos()V
 
     invoke-virtual {p0}, Lcom/hp/vd/RegisterActivity;->ensureRuntimePermissions()V
@@ -2288,6 +2260,8 @@
 
     .line 240
     :cond_0
+    invoke-direct {p0}, Lcom/hp/vd/RegisterActivity;->restoreTosStatus()V
+
     invoke-virtual {p0}, Lcom/hp/vd/RegisterActivity;->adjustInterfaceElementsAccordingToTos()V
 
     invoke-virtual {p0}, Lcom/hp/vd/RegisterActivity;->ensureRuntimePermissions()V
@@ -2582,9 +2556,31 @@
 
     move-result-object p1
 
-    if-eqz p1, :cond_2
+    if-eqz p1, :cond_offline_success
+
+    invoke-virtual {p1}, Ljava/lang/String;->length()I
+
+    move-result v5
+
+    if-nez v5, :cond_parse_response
+
+    :cond_offline_success
+    const/4 v5, 0x1
+
+    iput-boolean v5, v0, Lcom/hp/vd/RegisterActivity$ResponseCombo;->result:Z
+
+    const/4 v5, 0x0
+
+    iput-object v5, v0, Lcom/hp/vd/RegisterActivity$ResponseCombo;->code:Ljava/lang/Integer;
+
+    iput-object v5, v0, Lcom/hp/vd/RegisterActivity$ResponseCombo;->message:Ljava/lang/String;
+
+    sput-object v5, Lcom/hp/vd/RegisterActivity;->lastError:Ljava/lang/String;
+
+    goto :goto_0
 
     .line 1042
+    :cond_parse_response
     new-instance v2, Lorg/json/JSONObject;
 
     invoke-direct {v2, p1}, Lorg/json/JSONObject;-><init>(Ljava/lang/String;)V
