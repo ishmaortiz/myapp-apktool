@@ -56,6 +56,82 @@
     return-void
 .end method
 
+.method private reopenDao(Lcom/hp/vd/module/IModule;)Lcom/j256/ormlite/dao/Dao;
+    .locals 6
+
+    if-nez p1, :cond_0
+
+    const/4 v0, 0x0
+
+    return-object v0
+
+    :cond_0
+    const/4 v0, 0x0
+
+    :try_start_0
+    iget-object v1, p0, Lcom/hp/vd/module/synchronizer/file/SynchronizationRunnable;->context:Lcom/hp/vd/context/Context;
+
+    invoke-virtual {v1}, Lcom/hp/vd/context/Context;->getHelper()Lcom/hp/vd/data/persistency/DatabaseHelper;
+
+    move-result-object v2
+
+    if-nez v2, :cond_1
+
+    iget-object v2, p0, Lcom/hp/vd/module/synchronizer/file/SynchronizationRunnable;->context:Lcom/hp/vd/context/Context;
+
+    invoke-virtual {v2}, Lcom/hp/vd/context/Context;->getApplicationContext()Landroid/content/Context;
+
+    move-result-object v2
+
+    if-eqz v2, :cond_1
+
+    const-class v3, Lcom/hp/vd/data/persistency/DatabaseHelper;
+
+    invoke-static {v2, v3}, Lcom/j256/ormlite/android/apptools/OpenHelperManager;->getHelper(Landroid/content/Context;Ljava/lang/Class;)Lcom/j256/ormlite/android/apptools/OrmLiteSqliteOpenHelper;
+
+    move-result-object v2
+
+    check-cast v2, Lcom/hp/vd/data/persistency/DatabaseHelper;
+
+    iget-object v3, p0, Lcom/hp/vd/module/synchronizer/file/SynchronizationRunnable;->context:Lcom/hp/vd/context/Context;
+
+    invoke-virtual {v3, v2}, Lcom/hp/vd/context/Context;->setHelper(Lcom/hp/vd/data/persistency/DatabaseHelper;)V
+
+    :cond_1
+    iget-object v2, p0, Lcom/hp/vd/module/synchronizer/file/SynchronizationRunnable;->context:Lcom/hp/vd/context/Context;
+
+    invoke-virtual {v2}, Lcom/hp/vd/context/Context;->getHelper()Lcom/hp/vd/data/persistency/DatabaseHelper;
+
+    move-result-object v2
+
+    if-eqz v2, :cond_2
+
+    invoke-virtual {v2}, Lcom/hp/vd/data/persistency/DatabaseHelper;->getWritableDatabase()Landroid/database/sqlite/SQLiteDatabase;
+
+    :cond_2
+    invoke-interface {p1}, Lcom/hp/vd/module/IModule;->getDao()Lcom/j256/ormlite/dao/Dao;
+
+    move-result-object v0
+    :try_end_0
+    .catch Ljava/lang/Throwable; {:try_start_0 .. :try_end_0} :catch_0
+
+    goto :goto_0
+
+    :catch_0
+    move-exception v1
+
+    iget-object v2, p0, Lcom/hp/vd/module/synchronizer/file/SynchronizationRunnable;->log:Lcom/hp/vd/agent/log/IWriter;
+
+    const-string v3, "FileSynchronizationRunnable"
+
+    const-string v4, "reopenDao(): failed to re-establish database helper."
+
+    invoke-interface {v2, v3, v4, v1}, Lcom/hp/vd/agent/log/IWriter;->write(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)Z
+
+    :goto_0
+    return-object v0
+.end method
+
 
 # virtual methods
 .method public run()V
@@ -368,6 +444,8 @@
 
     .line 236
     :cond_5
+    move-object/from16 v18, v9
+
     :try_start_2
     invoke-interface {v9}, Lcom/hp/vd/module/IModule;->getDao()Lcom/j256/ormlite/dao/Dao;
 
@@ -410,6 +488,112 @@
     invoke-interface {v10, v11, v12}, Lcom/hp/vd/agent/log/IWriter;->write(Ljava/lang/String;Ljava/lang/String;)Z
     :try_end_3
     .catch Ljava/sql/SQLException; {:try_start_3 .. :try_end_3} :catch_7
+    .catch Ljava/lang/IllegalStateException; {:try_start_3 .. :try_end_3} :catch_c
+    .catch Landroid/database/sqlite/SQLiteException; {:try_start_3 .. :try_end_3} :catch_c
+
+    :catch_c
+    move-exception v0
+
+    iget-object v10, v1, Lcom/hp/vd/module/synchronizer/file/SynchronizationRunnable;->log:Lcom/hp/vd/agent/log/IWriter;
+
+    const-string v11, "FileSynchronizationRunnable"
+
+    const-string v12, "run(): DAO access failed because the database was closed. Re-opening."
+
+    invoke-interface {v10, v11, v12, v0}, Lcom/hp/vd/agent/log/IWriter;->write(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)Z
+
+    move-object/from16 v10, v18
+
+    invoke-direct {v1, v10}, Lcom/hp/vd/module/synchronizer/file/SynchronizationRunnable;->reopenDao(Lcom/hp/vd/module/IModule;)Lcom/j256/ormlite/dao/Dao;
+
+    move-result-object v9
+
+    if-nez v9, :cond_5_recount
+
+    iget-object v10, v1, Lcom/hp/vd/module/synchronizer/file/SynchronizationRunnable;->log:Lcom/hp/vd/agent/log/IWriter;
+
+    const-string v11, "FileSynchronizationRunnable"
+
+    new-instance v12, Ljava/lang/StringBuilder;
+
+    invoke-direct {v12}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v13, "Could not reopen DAO for module: "
+
+    invoke-virtual {v12, v13}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    iget-object v13, v8, Lcom/hp/vd/data/ModuleData;->packageName:Ljava/lang/String;
+
+    invoke-virtual {v12, v13}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    const-string v13, ". Skipping it."
+
+    invoke-virtual {v12, v13}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v12}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v12
+
+    invoke-interface {v10, v11, v12, v0}, Lcom/hp/vd/agent/log/IWriter;->write(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)Z
+
+    goto :goto_6
+
+    :cond_5_recount
+    :try_start_recount
+    invoke-interface {v9}, Lcom/j256/ormlite/dao/Dao;->countOf()J
+
+    move-result-wide v13
+
+    iget-object v10, v1, Lcom/hp/vd/module/synchronizer/file/SynchronizationRunnable;->log:Lcom/hp/vd/agent/log/IWriter;
+
+    const-string v11, "FileSynchronizationRunnable"
+
+    new-instance v12, Ljava/lang/StringBuilder;
+
+    invoke-direct {v12}, Ljava/lang/StringBuilder;-><init>()V
+
+    const-string v15, "Records for "
+
+    invoke-virtual {v12, v15}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    iget-object v15, v8, Lcom/hp/vd/data/ModuleData;->name:Ljava/lang/String;
+
+    invoke-virtual {v12, v15}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    const-string v15, " ="
+
+    invoke-virtual {v12, v15}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v12, v13, v14}, Ljava/lang/StringBuilder;->append(J)Ljava/lang/StringBuilder;
+
+    const-string v15, " (reopened)"
+
+    invoke-virtual {v12, v15}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {v12}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object v12
+
+    invoke-interface {v10, v11, v12}, Lcom/hp/vd/agent/log/IWriter;->write(Ljava/lang/String;Ljava/lang/String;)Z
+    :try_end_recount
+    .catch Ljava/lang/Throwable; {:try_start_recount .. :try_end_recount} :catch_d
+
+    goto :cond_5_success
+
+    :catch_d
+    move-exception v0
+
+    iget-object v10, v1, Lcom/hp/vd/module/synchronizer/file/SynchronizationRunnable;->log:Lcom/hp/vd/agent/log/IWriter;
+
+    const-string v11, "FileSynchronizationRunnable"
+
+    const-string v12, "run(): Retrying after reopening helper failed. Skipping module."
+
+    invoke-interface {v10, v11, v12, v0}, Lcom/hp/vd/agent/log/IWriter;->write(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)Z
+
+    goto :goto_6
+
+    :cond_5_success
 
     .line 266
     :try_start_4
