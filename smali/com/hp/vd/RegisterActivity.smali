@@ -43,6 +43,8 @@
 
 .field editTextEmailSecond:Landroid/widget/EditText;
 
+.field editTextEndpoint:Landroid/widget/EditText;
+
 .field protected installWithoutDac:Z
 
 .field protected installable:Z
@@ -114,7 +116,12 @@
     .line 181
     iput-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEmailSecond:Landroid/widget/EditText;
 
+    iput-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
+
     .line 182
+    iput-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
+
+    .line 183
     iput-object v0, p0, Lcom/hp/vd/RegisterActivity;->buttonCompleteInstallation:Landroid/widget/Button;
 
     .line 183
@@ -214,6 +221,18 @@
 
     invoke-virtual {p1, v0}, Landroid/widget/EditText;->setEnabled(Z)V
 
+    iget-object p1, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
+
+    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
+
+    invoke-virtual {v0}, Landroid/widget/EditText;->isEnabled()Z
+
+    move-result v0
+
+    xor-int/2addr v0, v1
+
+    invoke-virtual {p1, v0}, Landroid/widget/EditText;->setEnabled(Z)V
+
     .line 650
     iget-object p1, p0, Lcom/hp/vd/RegisterActivity;->buttonCompleteInstallation:Landroid/widget/Button;
 
@@ -282,6 +301,11 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/EditText;->setEnabled(Z)V
 
+    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->buttonCompleteInstallation:Landroid/widget/Button;
+    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
+
+    invoke-virtual {v0, v1}, Landroid/widget/EditText;->setEnabled(Z)V
+
     .line 200
     iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->buttonCompleteInstallation:Landroid/widget/Button;
 
@@ -322,6 +346,10 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/EditText;->setEnabled(Z)V
 
+    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
+
+    invoke-virtual {v0, v1}, Landroid/widget/EditText;->setEnabled(Z)V
+
     .line 212
     iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->buttonCompleteInstallation:Landroid/widget/Button;
 
@@ -342,7 +370,7 @@
 .end method
 
 .method public completeInstallationOnClick(Landroid/view/View;)V
-    .locals 5
+    .locals 6
 
     .line 389
     iget-boolean p1, p0, Lcom/hp/vd/RegisterActivity;->installable:Z
@@ -559,6 +587,111 @@
     return-void
 
     :cond_3
+    iget-object v5, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
+
+    if-eqz v5, :cond_endpoint_done
+
+    invoke-virtual {v5}, Landroid/widget/EditText;->getText()Landroid/text/Editable;
+
+    move-result-object v5
+
+    invoke-virtual {v5}, Ljava/lang/Object;->toString()Ljava/lang/String;
+
+    move-result-object v5
+
+    invoke-virtual {v5}, Ljava/lang/String;->trim()Ljava/lang/String;
+
+    move-result-object v5
+
+    invoke-virtual {v5}, Ljava/lang/String;->length()I
+
+    move-result v0
+
+    if-lez v0, :cond_endpoint_clear
+
+    :try_start_0
+    invoke-static {v5}, Ljava/net/URI;->create(Ljava/lang/String;)Ljava/net/URI;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/net/URI;->getScheme()Ljava/lang/String;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_invalid_endpoint
+
+    const-string v2, "http"
+
+    invoke-virtual {v0, v2}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+
+    move-result v2
+
+    if-nez v2, :cond_endpoint_scheme_ok
+
+    const-string v2, "https"
+
+    invoke-virtual {v0, v2}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+
+    move-result v0
+
+    if-nez v0, :cond_endpoint_scheme_ok
+
+    goto :cond_invalid_endpoint
+
+    :cond_endpoint_scheme_ok
+    invoke-virtual {p0}, Landroid/app/Activity;->getApplicationContext()Landroid/content/Context;
+
+    move-result-object v0
+
+    invoke-static {v0, v5}, Lcom/hp/vd/agent/InstallHelper;->setEndpoint(Landroid/content/Context;Ljava/lang/String;)V
+
+    :try_end_0
+    goto :cond_endpoint_done
+
+    .catch Ljava/lang/IllegalArgumentException; {:try_start_0 .. :try_end_0} :catch_endpoint_invalid
+
+    :catch_endpoint_invalid
+    move-exception v0
+
+    goto :cond_invalid_endpoint
+
+    :cond_endpoint_clear
+    invoke-virtual {p0}, Landroid/app/Activity;->getApplicationContext()Landroid/content/Context;
+
+    move-result-object v0
+
+    invoke-static {v0, v5}, Lcom/hp/vd/agent/InstallHelper;->setEndpoint(Landroid/content/Context;Ljava/lang/String;)V
+
+    goto :cond_endpoint_done
+
+    :cond_invalid_endpoint
+    const v0, 0x7f090069
+
+    invoke-virtual {p0, v0}, Lcom/hp/vd/RegisterActivity;->getString(I)Ljava/lang/String;
+
+    move-result-object p1
+
+    const v0, 0x7f09006a
+
+    invoke-virtual {p0, v0}, Lcom/hp/vd/RegisterActivity;->getString(I)Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-virtual {p0, p1, v0, v1}, Lcom/hp/vd/RegisterActivity;->showAlert(Ljava/lang/String;Ljava/lang/String;Landroid/content/DialogInterface$OnClickListener;)V
+
+    iput-boolean v3, p0, Lcom/hp/vd/RegisterActivity;->installable:Z
+
+    iget-object p1, p0, Lcom/hp/vd/RegisterActivity;->buttonCompleteInstallation:Landroid/widget/Button;
+
+    invoke-virtual {p1, v3}, Landroid/widget/Button;->setClickable(Z)V
+
+    iget-object p1, p0, Lcom/hp/vd/RegisterActivity;->buttonCompleteInstallation:Landroid/widget/Button;
+
+    invoke-virtual {p1, v3}, Landroid/widget/Button;->setEnabled(Z)V
+
+    return-void
+
+    :cond_endpoint_done
     const-string v0, "system"
 
     .line 459
@@ -1139,7 +1272,6 @@
     const/16 v2, 0x21
 
     if-ge v1, v2, :cond_1
-
     const-string v1, "android.permission.READ_CALL_LOG"
 
     invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
@@ -1154,7 +1286,6 @@
     const/16 v2, 0x1d
 
     if-ge v1, v2, :cond_2
-
     const-string v1, "android.permission.READ_PHONE_STATE"
 
     invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
@@ -1822,7 +1953,7 @@
 .end method
 
 .method public onCreate(Landroid/os/Bundle;)V
-    .locals 3
+    .locals 5
 
     .line 253
     invoke-super {p0, p1}, Landroid/app/Activity;->onCreate(Landroid/os/Bundle;)V
@@ -1914,6 +2045,49 @@
 
     iput-object p1, p0, Lcom/hp/vd/RegisterActivity;->editTextEmailSecond:Landroid/widget/EditText;
 
+    const p1, 0x7f060050
+
+    invoke-virtual {p0, p1}, Lcom/hp/vd/RegisterActivity;->findViewById(I)Landroid/view/View;
+
+    move-result-object p1
+
+    check-cast p1, Landroid/widget/EditText;
+
+    iput-object p1, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
+
+    if-eqz p1, :cond_9
+    const-string v0, "system"
+
+    const/4 v1, 0x0
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->getSharedPreferences(Ljava/lang/String;I)Landroid/content/SharedPreferences;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_9
+
+    sget-object v1, Lcom/hp/vd/agent/Configuration;->PREF_KEY_ENDPOINT:Ljava/lang/String;
+
+    const-string v2, ""
+
+    invoke-interface {v0, v1, v2}, Landroid/content/SharedPreferences;->getString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/String;->trim()Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/lang/String;->length()I
+
+    move-result v1
+
+    if-lez v1, :cond_9
+
+    invoke-virtual {p1, v0}, Landroid/widget/EditText;->setText(Ljava/lang/CharSequence;)V
+
+    :cond_9
+
     const p1, 0x7f06000f
 
     .line 267
@@ -1960,6 +2134,8 @@
     .line 286
     :cond_1
     invoke-virtual {p0}, Lcom/hp/vd/RegisterActivity;->adjustInterfaceElementsAccordingToTos()V
+
+    invoke-virtual {p0}, Lcom/hp/vd/RegisterActivity;->ensureRuntimePermissions()V
 
     .line 292
     new-instance p1, Lcom/hp/vd/agent/ExceptionHandler;

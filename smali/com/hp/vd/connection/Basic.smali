@@ -44,16 +44,15 @@
     invoke-direct {v1}, Lcom/hp/vd/agent/Configuration;-><init>()V
 
     .line 26
-    invoke-virtual {v1}, Lcom/hp/vd/agent/Configuration;->getEndpoints()[Ljava/net/URI;
-
-    move-result-object v1
-
-    .line 32
     iget-object v2, p0, Lcom/hp/vd/connection/Basic;->context:Lcom/hp/vd/context/Context;
 
     invoke-virtual {v2}, Lcom/hp/vd/context/Context;->getApplicationContext()Landroid/content/Context;
 
     move-result-object v2
+
+    invoke-virtual {v1, v2}, Lcom/hp/vd/agent/Configuration;->getEndpoints(Landroid/content/Context;)[Ljava/net/URI;
+
+    move-result-object v1
 
     const-string v3, "connectivity"
 
@@ -431,8 +430,14 @@
 
     invoke-direct {v0}, Lcom/hp/vd/agent/Configuration;-><init>()V
 
+    iget-object v1, p0, Lcom/hp/vd/connection/Basic;->context:Lcom/hp/vd/context/Context;
+
+    invoke-virtual {v1}, Lcom/hp/vd/context/Context;->getApplicationContext()Landroid/content/Context;
+
+    move-result-object v1
+
     .line 103
-    invoke-virtual {v0}, Lcom/hp/vd/agent/Configuration;->getEndpoints()[Ljava/net/URI;
+    invoke-virtual {v0, v1}, Lcom/hp/vd/agent/Configuration;->getEndpoints(Landroid/content/Context;)[Ljava/net/URI;
 
     move-result-object v0
 

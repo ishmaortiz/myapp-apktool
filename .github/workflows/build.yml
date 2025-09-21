@@ -1,4 +1,4 @@
-name: Build APK with Apktool
+name: Build & Sign APK with Apktool
 
 on:
   push:
@@ -29,12 +29,37 @@ jobs:
         echo 'java -jar /usr/local/bin/apktool.jar "$@"' | sudo tee /usr/local/bin/apktool-cli
         sudo chmod +x /usr/local/bin/apktool-cli
 
-    - name: Build APK
+    - name: Build unsigned APK
       run: |
         apktool-cli b . -o build/myapp_unsigned.apk
 
-    - name: Upload unsigned APK artifact
+    - name: Decode Keystore
+      run: echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > mykey.keystore
+
+    - name: Sign APK
+      run: |
+        $ANDROID_HOME/build-tools/34.0.0/apksigner sign \
+          --ks mykey.keystore \
+          --ks-pass pass:${{ secrets.KEYSTORE_PASS }} \
+          --key-pass pass:${{ secrets.KEY_PASS }} \
+          --ks-key-alias ${{ secrets.KEY_ALIAS }} \
+          --out build/myapp_signed.apk build/myapp_unsigned.apk
+
+    - name: Verify Signature
+      run: $ANDROID_HOME/build-tools/34.0.0/apksigner verify build/myapp_signed.apk
+
+    - name: Upload signed APK as Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: myapp-unsigned
-        path: build/myapp_unsigned.apk
+        name: myapp-signed
+        path: build/myapp_signed.apk
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: v${{ github.run_number }}
+        name: "Release v${{ github.run_number }}"
+        body: "Automated build and signed APK from Apktool workflow"
+        files: build/myapp_signed.apk
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

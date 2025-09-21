@@ -64,6 +64,7 @@
 .field public static final emailFirst:I = 0x7f060017
 
 .field public static final emailSecond:I = 0x7f060018
+.field public static final endpointOverride:I = 0x7f060050
 
 .field public static final end_padder:I = 0x7f060019
 
