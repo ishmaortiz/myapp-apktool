@@ -6,6 +6,9 @@ on:
       - main
   pull_request:
 
+permissions:
+  contents: write   # Needed for GitHub Releases
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -34,7 +37,11 @@ jobs:
         apktool-cli b . -o build/myapp_unsigned.apk
 
     - name: Decode Keystore
-      run: echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > mykey.keystore
+      run: echo "${{ secrets.KEYSTORE_FILE }}" | tr -d '\n\r' | base64 -d > mykey.keystore
+
+    - name: Zipalign APK
+      run: |
+        $ANDROID_HOME/build-tools/34.0.0/zipalign -p -f 4 build/myapp_unsigned.apk build/myapp_aligned.apk
 
     - name: Sign APK
       run: |
@@ -43,10 +50,12 @@ jobs:
           --ks-pass pass:${{ secrets.KEYSTORE_PASS }} \
           --key-pass pass:${{ secrets.KEY_PASS }} \
           --ks-key-alias ${{ secrets.KEY_ALIAS }} \
-          --out build/myapp_signed.apk build/myapp_unsigned.apk
+          --out build/myapp_signed.apk build/myapp_aligned.apk
 
-    - name: Verify Signature
-      run: $ANDROID_HOME/build-tools/34.0.0/apksigner verify build/myapp_signed.apk
+    - name: Verify Signature & Alignment
+      run: |
+        $ANDROID_HOME/build-tools/34.0.0/zipalign -c -v 4 build/myapp_signed.apk
+        $ANDROID_HOME/build-tools/34.0.0/apksigner verify build/myapp_signed.apk
 
     - name: Upload signed APK as Artifact
       uses: actions/upload-artifact@v4
@@ -59,7 +68,7 @@ jobs:
       with:
         tag_name: v${{ github.run_number }}
         name: "Release v${{ github.run_number }}"
-        body: "Automated build and signed APK from Apktool workflow"
+        body: "Automated signed APK build from Apktool workflow"
         files: build/myapp_signed.apk
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
