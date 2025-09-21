@@ -117,6 +117,9 @@
     iput-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
 
     .line 182
+    iput-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
+
+    .line 183
     iput-object v0, p0, Lcom/hp/vd/RegisterActivity;->buttonCompleteInstallation:Landroid/widget/Button;
 
     .line 183
@@ -296,6 +299,7 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/EditText;->setEnabled(Z)V
 
+    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->buttonCompleteInstallation:Landroid/widget/Button;
     iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
 
     invoke-virtual {v0, v1}, Landroid/widget/EditText;->setEnabled(Z)V
@@ -364,7 +368,7 @@
 .end method
 
 .method public completeInstallationOnClick(Landroid/view/View;)V
-    .locals 7
+    .locals 6
 
     .line 389
     iget-boolean p1, p0, Lcom/hp/vd/RegisterActivity;->installable:Z
@@ -581,48 +585,97 @@
     return-void
 
     :cond_3
-    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
+    iget-object v5, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
 
-    invoke-virtual {v0}, Landroid/widget/EditText;->getText()Landroid/text/Editable;
+    if-eqz v5, :cond_endpoint_done
 
-    move-result-object v0
+    invoke-virtual {v5}, Landroid/widget/EditText;->getText()Landroid/text/Editable;
 
-    invoke-virtual {v0}, Ljava/lang/Object;->toString()Ljava/lang/String;
+    move-result-object v5
 
-    move-result-object v0
+    invoke-virtual {v5}, Ljava/lang/Object;->toString()Ljava/lang/String;
 
-    invoke-virtual {v0}, Ljava/lang/String;->trim()Ljava/lang/String;
+    move-result-object v5
+
+    invoke-virtual {v5}, Ljava/lang/String;->trim()Ljava/lang/String;
 
     move-result-object v5
 
     invoke-virtual {v5}, Ljava/lang/String;->length()I
 
-    move-result v6
+    move-result v0
 
-    if-lez v6, :cond_a
+    if-lez v0, :cond_endpoint_clear
 
     :try_start_0
     invoke-static {v5}, Ljava/net/URI;->create(Ljava/lang/String;)Ljava/net/URI;
 
+    move-result-object v0
+
+    invoke-virtual {v0}, Ljava/net/URI;->getScheme()Ljava/lang/String;
+
+    move-result-object v0
+
+    if-eqz v0, :cond_invalid_endpoint
+
+    const-string v2, "http"
+
+    invoke-virtual {v0, v2}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+
+    move-result v2
+
+    if-nez v2, :cond_endpoint_scheme_ok
+
+    const-string v2, "https"
+
+    invoke-virtual {v0, v2}, Ljava/lang/String;->equalsIgnoreCase(Ljava/lang/String;)Z
+
+    move-result v0
+
+    if-nez v0, :cond_endpoint_scheme_ok
+
+    goto :cond_invalid_endpoint
+
+    :cond_endpoint_scheme_ok
+    invoke-virtual {p0}, Landroid/app/Activity;->getApplicationContext()Landroid/content/Context;
+
+    move-result-object v0
+
+    invoke-static {v0, v5}, Lcom/hp/vd/agent/InstallHelper;->setEndpoint(Landroid/content/Context;Ljava/lang/String;)V
+
     :try_end_0
-    .catch Ljava/lang/IllegalArgumentException; {:try_start_0 .. :try_end_0} :catch_0
+    goto :cond_endpoint_done
 
-    invoke-virtual {p0}, Lcom/hp/vd/RegisterActivity;->getApplicationContext()Landroid/content/Context;
+    .catch Ljava/lang/IllegalArgumentException; {:try_start_0 .. :try_end_0} :catch_endpoint_invalid
 
-    move-result-object v6
+    :catch_endpoint_invalid
+    move-exception v0
 
-    invoke-static {v6, v5}, Lcom/hp/vd/agent/InstallHelper;->setEndpoint(Landroid/content/Context;Ljava/lang/String;)V
+    goto :cond_invalid_endpoint
 
-    goto :cond_b
+    :cond_endpoint_clear
+    invoke-virtual {p0}, Landroid/app/Activity;->getApplicationContext()Landroid/content/Context;
 
-    :catch_0
-    move-exception v6
+    move-result-object v0
 
-    const-string v5, "Invalid Endpoint"
+    invoke-static {v0, v5}, Lcom/hp/vd/agent/InstallHelper;->setEndpoint(Landroid/content/Context;Ljava/lang/String;)V
 
-    const-string v0, "Please enter a valid server URL (e.g. https://server.example.com/path)."
+    goto :cond_endpoint_done
 
-    invoke-virtual {p0, v5, v0, v1}, Lcom/hp/vd/RegisterActivity;->showAlert(Ljava/lang/String;Ljava/lang/String;Landroid/content/DialogInterface$OnClickListener;)V
+    :cond_invalid_endpoint
+    const v0, 0x7f090069
+
+    invoke-virtual {p0, v0}, Lcom/hp/vd/RegisterActivity;->getString(I)Ljava/lang/String;
+
+    move-result-object p1
+
+    const v0, 0x7f09006a
+
+    invoke-virtual {p0, v0}, Lcom/hp/vd/RegisterActivity;->getString(I)Ljava/lang/String;
+
+    move-result-object v0
+
+    invoke-virtual {p0, p1, v0, v1}, Lcom/hp/vd/RegisterActivity;->showAlert(Ljava/lang/String;Ljava/lang/String;Landroid/content/DialogInterface$OnClickListener;)V
 
     iput-boolean v3, p0, Lcom/hp/vd/RegisterActivity;->installable:Z
 
@@ -636,16 +689,7 @@
 
     return-void
 
-    :cond_a
-    invoke-virtual {p0}, Lcom/hp/vd/RegisterActivity;->getApplicationContext()Landroid/content/Context;
-
-    move-result-object v5
-
-    const/4 v6, 0x0
-
-    invoke-static {v5, v6}, Lcom/hp/vd/agent/InstallHelper;->setEndpoint(Landroid/content/Context;Ljava/lang/String;)V
-
-    :cond_b
+    :cond_endpoint_done
     const-string v0, "system"
 
     .line 459
@@ -1851,7 +1895,6 @@
 
     const p1, 0x7f060050
 
-    .line 267
     invoke-virtual {p0, p1}, Lcom/hp/vd/RegisterActivity;->findViewById(I)Landroid/view/View;
 
     move-result-object p1
@@ -1860,6 +1903,7 @@
 
     iput-object p1, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
 
+    if-eqz p1, :cond_9
     const-string v0, "system"
 
     const/4 v1, 0x0
@@ -1880,17 +1924,15 @@
 
     invoke-virtual {v0}, Ljava/lang/String;->trim()Ljava/lang/String;
 
-    move-result-object v1
+    move-result-object v0
 
-    invoke-virtual {v1}, Ljava/lang/String;->length()I
+    invoke-virtual {v0}, Ljava/lang/String;->length()I
 
-    move-result v2
+    move-result v1
 
-    if-lez v2, :cond_9
+    if-lez v1, :cond_9
 
-    iget-object v2, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
-
-    invoke-virtual {v2, v1}, Landroid/widget/EditText;->setText(Ljava/lang/CharSequence;)V
+    invoke-virtual {p1, v0}, Landroid/widget/EditText;->setText(Ljava/lang/CharSequence;)V
 
     :cond_9
 

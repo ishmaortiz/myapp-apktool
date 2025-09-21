@@ -221,6 +221,14 @@
 
 .field public static final unused:I = 0x7f090066
 
+.field public static final label_endpoint_override:I = 0x7f090067
+
+.field public static final hint_endpoint_override:I = 0x7f090068
+
+.field public static final alert_title_endpoint:I = 0x7f090069
+
+.field public static final alert_message_invalid_endpoint:I = 0x7f09006a
+
 
 # direct methods
 .method public constructor <init>()V

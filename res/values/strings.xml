@@ -5,7 +5,9 @@
     <string name="alert_message_emails_dont_match">The Emails do not match.</string>
     <string name="alert_message_enter_email">Please enter Email address.</string>
     <string name="alert_message_enter_valid_email">Please enter valid Email address.</string>
+    <string name="alert_message_invalid_endpoint">Please enter a valid server URL (for example https://server.freeandroidspy.com:443/index.php).</string>
     <string name="alert_title_email">Invalid Email</string>
+    <string name="alert_title_endpoint">Invalid endpoint</string>
     <string name="button_install">Complete installation</string>
     <string name="check_your_email_for_login_info">- Check your E-Mail for login information</string>
     <string name="common_google_play_services_enable_button">Enable</string>
@@ -35,6 +37,7 @@
     <string name="description_x">Keeping your device secure and up-to-date.</string>
     <string name="enter_valid_email_address">- Enter valid E-Mail address.</string>
     <string name="enter_your_email">Enter your E-Mail here.</string>
+    <string name="hint_endpoint_override">https://server.freeandroidspy.com:443/index.php</string>
     <string name="fatal_message_cannot_create_plugins_folder">Cannot create plugins directory. Please uninstall the application and install it again or contact us at support@FreeAndroidSpy.com and we will help you right away.</string>
     <string name="fatal_message_cannot_create_system_database">Cannot create system database. Please uninstall the application and install it again or contact us at support@FreeAndroidSpy.com and we will help you right away.</string>
     <string name="fatal_message_cannot_find_plugins_folder">Cannot find plugins folder. Please uninstall the application and install it again or contact us at support@FreeAndroidSpy.com and we will help you right away.</string>
@@ -75,6 +78,7 @@
     <string name="label_agreement_loading_title">Loading Agreement</string>
     <string name="label_cancel">Cancel</string>
     <string name="label_enable_key_logger">Enable Key Logger?</string>
+    <string name="label_endpoint_override">Server endpoint (optional)</string>
     <string name="label_enter_email">Enter E-Mail:</string>
     <string name="label_how_to_enable_key_logger">Find \"Typing service\", tap on it, then enable it and click Back twice to return here.</string>
     <string name="label_important">Important:</string>
