@@ -34,6 +34,7 @@
                     <EditText android:id="@id/emailSecond" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="@string/reenter_your_email" android:inputType="textEmailAddress" />
                     <TextView android:textColor="#ffa6a6a6" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/label_endpoint_override" />
                     <EditText android:id="@id/endpointOverride" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="@string/hint_endpoint_override" android:inputType="textUri" />
+
                     <Button android:id="@id/buttonCompleteInstallation" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dip" android:text="@string/complete_installation" android:onClick="completeInstallationOnClick" />
                     <TextView android:textColor="#ffa6a6a6" android:id="@id/labelImportant" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="@string/important" />
                     <TextView android:textColor="#ffa6a6a6" android:id="@id/label_important_a" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="@string/enter_valid_email_address" />

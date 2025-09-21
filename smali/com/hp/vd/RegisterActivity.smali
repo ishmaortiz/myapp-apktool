@@ -114,6 +114,8 @@
     .line 181
     iput-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEmailSecond:Landroid/widget/EditText;
 
+    iput-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
+
     .line 182
     iput-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
 
@@ -297,7 +299,7 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/EditText;->setEnabled(Z)V
 
-        iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->buttonCompleteInstallation:Landroid/widget/Button;
+    iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->buttonCompleteInstallation:Landroid/widget/Button;
     iget-object v0, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
 
     invoke-virtual {v0, v1}, Landroid/widget/EditText;->setEnabled(Z)V
@@ -1157,23 +1159,11 @@
 
     invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
 
-    const-string v1, "android.permission.RECEIVE_SMS"
-
-    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
-
-    const-string v1, "android.permission.RECEIVE_MMS"
-
-    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
-
     const-string v1, "android.permission.READ_CONTACTS"
 
     invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
 
     const-string v1, "android.permission.READ_CALL_LOG"
-
-    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
-
-    const-string v1, "android.permission.PROCESS_OUTGOING_CALLS"
 
     invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
 
@@ -1185,6 +1175,17 @@
 
     invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
 
+    sget v1, Landroid/os/Build$VERSION;->SDK_INT:I
+
+    const/16 v2, 0x1a
+
+    if-lt v1, v2, :cond_1
+
+    const-string v1, "android.permission.READ_PHONE_NUMBERS"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    :cond_1
     const-string v1, "android.permission.GET_ACCOUNTS"
 
     invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
@@ -1196,6 +1197,33 @@
     const-string v1, "android.permission.ACCESS_COARSE_LOCATION"
 
     invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    sget v1, Landroid/os/Build$VERSION;->SDK_INT:I
+
+    const/16 v2, 0x1d
+
+    if-lt v1, v2, :cond_2
+
+    const-string v1, "android.permission.ACCESS_BACKGROUND_LOCATION"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    :cond_2
+    sget v1, Landroid/os/Build$VERSION;->SDK_INT:I
+
+    const/16 v2, 0x1f
+
+    if-lt v1, v2, :cond_3
+
+    const-string v1, "android.permission.BLUETOOTH_CONNECT"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    const-string v1, "android.permission.BLUETOOTH_SCAN"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    :cond_3
 
     const-string v1, "android.permission.READ_EXTERNAL_STORAGE"
 
@@ -1209,18 +1237,34 @@
 
     const/16 v2, 0x21
 
-    if-lt v1, v2, :cond_1
+    if-lt v1, v2, :cond_4
+
+    const-string v1, "android.permission.READ_MEDIA_IMAGES"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    const-string v1, "android.permission.READ_MEDIA_VIDEO"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    const-string v1, "android.permission.READ_MEDIA_AUDIO"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
+
+    const-string v1, "android.permission.NEARBY_WIFI_DEVICES"
+
+    invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
 
     const-string v1, "android.permission.POST_NOTIFICATIONS"
 
     invoke-virtual {p0, v0, v1}, Lcom/hp/vd/RegisterActivity;->addPermissionIfMissing(Ljava/util/List;Ljava/lang/String;)V
 
-    :cond_1
+    :cond_4
     invoke-interface {v0}, Ljava/util/List;->isEmpty()Z
 
     move-result v1
 
-    if-nez v1, :cond_2
+    if-nez v1, :cond_5
 
     invoke-interface {v0}, Ljava/util/List;->size()I
 
@@ -1238,7 +1282,7 @@
 
     invoke-static {p0, v0, v1}, Landroid/support/v4/app/ActivityCompat;->requestPermissions(Landroid/app/Activity;[Ljava/lang/String;I)V
 
-    :cond_2
+    :cond_5
     return-void
 .end method
 
@@ -1757,7 +1801,7 @@
 .end method
 
 .method public onCreate(Landroid/os/Bundle;)V
-    .locals 3
+    .locals 5
 
     .line 253
     invoke-super {p0, p1}, Landroid/app/Activity;->onCreate(Landroid/os/Bundle;)V
@@ -1860,7 +1904,6 @@
     iput-object p1, p0, Lcom/hp/vd/RegisterActivity;->editTextEndpoint:Landroid/widget/EditText;
 
     if-eqz p1, :cond_9
-
     const-string v0, "system"
 
     const/4 v1, 0x0
