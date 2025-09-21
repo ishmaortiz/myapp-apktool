@@ -109,6 +109,17 @@
     invoke-virtual {v2}, Lcom/hp/vd/data/persistency/DatabaseHelper;->getWritableDatabase()Landroid/database/sqlite/SQLiteDatabase;
 
     :cond_2
+    instance-of v2, p1, Lcom/hp/vd/module/ModuleAbstract;
+
+    if-eqz v2, :cond_3
+
+    move-object v2, p1
+
+    check-cast v2, Lcom/hp/vd/module/ModuleAbstract;
+
+    invoke-virtual {v2}, Lcom/hp/vd/module/ModuleAbstract;->resetDao()V
+
+    :cond_3
     invoke-interface {p1}, Lcom/hp/vd/module/IModule;->getDao()Lcom/j256/ormlite/dao/Dao;
 
     move-result-object v0

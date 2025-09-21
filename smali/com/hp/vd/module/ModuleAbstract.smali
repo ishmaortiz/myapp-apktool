@@ -509,6 +509,16 @@
     return-void
 .end method
 
+.method public resetDao()V
+    .locals 1
+
+    const/4 v0, 0x0
+
+    iput-object v0, p0, Lcom/hp/vd/module/ModuleAbstract;->dao:Lcom/j256/ormlite/dao/Dao;
+
+    return-void
+.end method
+
 .method public setDataReadLimit(Ljava/lang/Integer;)Z
     .locals 3
 
